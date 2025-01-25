@@ -1,0 +1,12 @@
+https://graphite.dev/guides/npm-typescript
+
+
+https://sylhare.github.io/2023/06/22/Typescript-monorepo.html
+
+
+Welches Testframework?
+vitest
+
+wie aufsetzen?
+Multi packages per repo
+https://blog.frankdejonge.nl/setting-up-a-typescript-mono-repo-for-scoped-packages/
