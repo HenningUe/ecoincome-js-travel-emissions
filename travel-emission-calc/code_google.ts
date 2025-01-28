@@ -1,4 +1,4 @@
-
+/**
 <!DOCTYPE html>
 <!--
  @license
@@ -13,7 +13,7 @@
        * @license
        * Copyright 2019 Google LLC. All Rights Reserved.
        * SPDX-License-Identifier: Apache-2.0
-       */
+       
       function initMap() {
         const bounds = new google.maps.LatLngBounds();
         const markersArray = [];
@@ -104,8 +104,8 @@
        * @license
        * Copyright 2019 Google LLC. All Rights Reserved.
        * SPDX-License-Identifier: Apache-2.0
-       */
-      /* Optional: Makes the sample page fill the window. */
+       
+       * Optional: Makes the sample page fill the window. 
       html,
       body {
         height: 100%;
@@ -155,4 +155,4 @@
     ></script>
   </body>
 </html>
-    
+*/
