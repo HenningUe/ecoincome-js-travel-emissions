@@ -1,0 +1,28 @@
+{
+    "compilerOptions": {
+      "target": "ESNext",
+      "module": "ESNext",
+      "isolatedModules": true,
+      "esModuleInterop": true,
+      "noImplicitAny": true,
+      "removeComments": true,
+      "composite": true, 
+      "preserveConstEnums": true,
+      "allowImportingTsExtensions": true,
+      "emitDeclarationOnly": true,
+      "outDir": "./out",
+      "rootDir": "./packages",
+      "sourceMap": true,
+      "lib": [ "esnext", "dom" ],
+      "types": [ "node" ],
+      "moduleResolution": "node",
+      "allowSyntheticDefaultImports": true
+    },
+
+    "include": [
+      "packages/**/*"
+    ],
+    "references": [
+      { "path": "./packages/distance-getter" }
+    ]
+  }

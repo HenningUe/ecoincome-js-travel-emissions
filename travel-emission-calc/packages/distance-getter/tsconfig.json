@@ -1,13 +1,16 @@
-
-  {
-    "extends": "../../../tsconfig.json",
-    "compilerOptions": {
-      "outDir": "./out",
-      "rootDir": "./src"
-    },
-    "include": ["src/**/*"],
-    "exclude": ["**/*.spec.ts"],
-    "typeRoots": [
-      "node_modules/@types"
-    ],
-  }
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "outDir": "./out",
+    "rootDir": "./src",      
+    "resolveJsonModule": true,
+    "esModuleInterop": true,
+    "emitDeclarationOnly": true,
+    "lib": ["dom", "esnext"]
+  },
+  "include": ["src/**/*"],
+  "exclude": ["**/*.spec.ts"],
+  "typeRoots": [
+    "node_modules/@types"
+  ],
+}

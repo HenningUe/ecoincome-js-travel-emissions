@@ -24,7 +24,19 @@ export function getDistanceAsKm(
     transportationMode: TransportationMode | string,
     origin: string,
     destination: string): number {
+
+
     var distance: number=-1;
-    getAsyncDistanceAsKm(apiKey, transportationMode, origin, destination).then(x => {distance=x;});
+    let resolveFunction = (value: number) => {distance=value;};
+    let promise: Promise<number> = getAsyncDistanceAsKm(apiKey, transportationMode, origin, destination);
+    promise
+    .then(resolveFunction)
+    .catch((error) => {
+        console.error("Error occurred:", error);
+      })
+    .finally(() => {});
+    while (distance === -1) {
+        promise.then(resolveFunction);
+    }
     return distance;
 }
