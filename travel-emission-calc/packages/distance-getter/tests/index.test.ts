@@ -1,9 +1,9 @@
 
 import { describe, it, expect } from 'vitest';
-import { getDistance } from '../src/index.js';
+import { getDistanceAsKm } from '../src/index.ts';
 
-describe('sum function', () => {
+describe('getDistanceAsKm check', () => {
   it('should return the correct distance', () => {
-    expect(getDistance("aa", "bb")).toBe(10);
+    expect(getDistanceAsKm("key", "Car", "Berlin", "Munich")).toBe(10);
   });
 });
