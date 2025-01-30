@@ -1,9 +1,26 @@
 
-export enum TransportationMode
-{
+export enum TransportationMode {
     Car,
     CarWithRideSharing,
-    Train,
-    Plane,
+    PublicTransit,
+    PlaneDomestic,
+    PlaneInternational,
     Bike
 }
+
+export class TransportationModeUtils {
+    static getPlanModes(): TransportationMode[] {
+        const PLANE_TRANSPORT_MODES: TransportationMode[] = [
+            TransportationMode.PlaneDomestic,
+            TransportationMode.PlaneInternational,
+        ];
+        return PLANE_TRANSPORT_MODES;
+    }
+
+    static convert2Enum(value: TransportationMode | string): TransportationMode {
+        if (typeof value === 'string') {
+            value = TransportationMode[value as keyof typeof TransportationMode];
+        }
+        return value;
+    }
+  }

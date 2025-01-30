@@ -1,6 +1,6 @@
 
 import axios from 'axios';
-import { TransportationMode } from './enums';
+import { TransportationMode, TransportationModeUtils } from './enums';
 
 abstract class DistanceGetter {
     abstract getDistanceAsKm(
@@ -24,7 +24,9 @@ export class DistanceGetterWithConnection extends DistanceGetter {
     origin: string,
     destination: string,
   ): Promise<number> {
-    if (transportationMode === TransportationMode.Plane) {
+
+    var planeModes = TransportationModeUtils.getPlanModes();
+    if (planeModes.includes(transportationMode)) {
       return this.getDistForPlane(transportationMode, origin, destination);
     } else {
       return this.getDistForNonePlane(transportationMode, origin, destination);
@@ -42,7 +44,7 @@ export class DistanceGetterWithConnection extends DistanceGetter {
     const transpModeMap: Map<TransportationMode, string> = new Map([
       [TransportationMode.Car, 'driving'],
       [TransportationMode.CarWithRideSharing, 'driving'],
-      [TransportationMode.Train, 'transit'],
+      [TransportationMode.PublicTransit, 'transit'],
       [TransportationMode.Bike, 'bicycling'],
     ]);
   
