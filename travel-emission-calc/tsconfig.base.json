@@ -2,6 +2,7 @@
     "compilerOptions": {
       "target": "ESNext",
       "module": "ESNext",
+      "moduleResolution": "NodeNext",
       "isolatedModules": true,
       "esModuleInterop": true,
       "noImplicitAny": true,
@@ -12,17 +13,19 @@
       "emitDeclarationOnly": true,
       "outDir": "./out",
       "rootDir": "./packages",
-      "sourceMap": true,
       "lib": [ "esnext", "dom" ],
       "types": [ "node" ],
-      "moduleResolution": "node",
-      "allowSyntheticDefaultImports": true
+      "allowSyntheticDefaultImports": true,
+      "declaration": true,
+      "declarationMap": true,
+      "sourceMap": true,
     },
 
     "include": [
       "packages/**/*"
     ],
     "references": [
-      { "path": "./packages/distance-getter" }
+      { "path": "./packages/travel-emission-restapi" },
+      { "path": "./packages/travel-emission" }
     ]
   }

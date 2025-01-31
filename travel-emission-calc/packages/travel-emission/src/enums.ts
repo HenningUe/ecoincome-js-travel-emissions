@@ -9,7 +9,7 @@ export enum TransportationMode {
 }
 
 export class TransportationModeUtils {
-    static getPlanModes(): TransportationMode[] {
+    static getPlaneModes(): TransportationMode[] {
         const PLANE_TRANSPORT_MODES: TransportationMode[] = [
             TransportationMode.PlaneDomestic,
             TransportationMode.PlaneInternational,

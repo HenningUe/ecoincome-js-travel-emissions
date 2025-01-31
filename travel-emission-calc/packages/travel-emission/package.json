@@ -1,8 +1,17 @@
 {
-  "name": "@travel-emission-calc/distance-getter",
-  "description": "A project using TypeScript",
+  "name": "@travel-emission-calc/travel-emission",
+  "description": "Calculations for travel emissions depending on the mode of transport",
   "version": "1.0.0",
   "main": "out/index.js",
+  "module": "out/index.js",
+  "types": "out/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./out/index.js",
+      "require": "./out/index.cjs"
+    }
+  },
+  "files": ["out"],
   "dependencies": {
     "axios": "^1.7.9",
     "typescript":"^5.7.3",

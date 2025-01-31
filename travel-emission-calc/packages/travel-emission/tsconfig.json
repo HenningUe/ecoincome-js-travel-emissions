@@ -1,14 +1,15 @@
 {
-  "extends": "../../tsconfig.json",
+  "extends": "../../tsconfig.base.json",
   "compilerOptions": {
     "outDir": "./out",
     "rootDir": "./src",      
     "resolveJsonModule": true,
     "esModuleInterop": true,
     "emitDeclarationOnly": true,
-    "lib": ["dom", "esnext"]
+    "lib": ["dom", "esnext"],
+    "declaration": true,
   },
-  "include": ["src/**/*"],
+  "include": ["src/**/*.ts"],
   "exclude": ["**/*.spec.ts"],
   "typeRoots": [
     "node_modules/@types"

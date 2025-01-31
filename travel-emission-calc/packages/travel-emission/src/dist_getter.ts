@@ -2,7 +2,7 @@
 import axios from 'axios';
 import { TransportationMode, TransportationModeUtils } from './enums';
 
-abstract class DistanceGetter {
+abstract class DistanceGetterBase {
     abstract getDistanceAsKm(
       transportationMode: TransportationMode,
       origin: string,
@@ -10,7 +10,7 @@ abstract class DistanceGetter {
 }
 
 
-export class DistanceGetterWithConnection extends DistanceGetter {
+export class DistanceGetterGoogle extends DistanceGetterBase {
   private apiKey: string;
   
   constructor(apiKey: string) {
@@ -25,7 +25,7 @@ export class DistanceGetterWithConnection extends DistanceGetter {
     destination: string,
   ): Promise<number> {
 
-    var planeModes = TransportationModeUtils.getPlanModes();
+    var planeModes = TransportationModeUtils.getPlaneModes();
     if (planeModes.includes(transportationMode)) {
       return this.getDistForPlane(transportationMode, origin, destination);
     } else {
