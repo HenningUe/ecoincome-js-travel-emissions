@@ -9,6 +9,8 @@ export class AppController {
   getCO2EmissionKgTotalPerPerson(): string {
     return this.appService.getCO2EmissionKgTotalPerPerson();
   }
+  
+  @Get()
   getAvailableTransportationModes(): string {
     return this.appService.getAvailableTransportationModes();
   }

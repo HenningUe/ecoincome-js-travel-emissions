@@ -25,6 +25,11 @@
     "noFallthroughCasesInSwitch": false,
     "paths": {
       "../travel-emission": ["../travel-emission/src"],
-    }
+    },
+    "plugins": [
+      {
+        "name": "@nestjs/swagger"
+      }
+    ],
   }
 }
