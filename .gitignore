@@ -17,9 +17,11 @@ resources/.arch-internal-preview.css
 
 # compiled output
 /dist
-/node_modules
+/out/*
+node_modules/
+node_modules/*
 /build
-/.vite
+*/.vite/
 
 # Logs
 logs

@@ -2,7 +2,7 @@
     "private":true,
     "dependencies": {
         "@travel-emission-calc/travel-emission":"1.0.0",
-        "@nestjs/cli":"1.0.0"
+        "@nestjs/cli":"11.0.2"
     },
     "devDependencies":{
         "@types/node":"^22.12.0",
