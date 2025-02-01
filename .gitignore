@@ -19,6 +19,7 @@ resources/.arch-internal-preview.css
 /dist
 /node_modules
 /build
+/.vite
 
 # Logs
 logs
