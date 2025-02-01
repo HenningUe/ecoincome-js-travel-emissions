@@ -5,19 +5,17 @@ import { TransportationMode, TransportationModeUtils } from './enums';
 import { DistanceGetterGoogle } from './dist_getter';
 
 export async function  getDistanceKm(
-    apiKey: string,
     transportMode: TransportationMode | string,
     origin: string,
     destination: string): Promise<number> {
 
     transportMode = TransportationModeUtils.convert2Enum(transportMode);
-    const distGetter = new DistanceGetterGoogle(apiKey);
+    const distGetter = new DistanceGetterGoogle();
     return distGetter.getDistanceAsKm(<TransportationMode>transportMode, origin, destination);
 }
 
 
 export async function getCO2EmissionKgTotalPerPerson(
-    apiKey: string,
     transportMode: TransportationMode | string,
     origin: string,
     destination: string): Promise<number> {
@@ -35,7 +33,7 @@ export async function getCO2EmissionKgTotalPerPerson(
     if (transportMode === TransportationMode.Bike) {
         distance = 0;
     } else {
-        distance = await getDistanceKm(apiKey, transportMode, origin, destination);
+        distance = await getDistanceKm(transportMode, origin, destination);
     }
     const emission: number = distance * CO2_EMISSION_KG_PER_KM[transportMode];
     return emission;

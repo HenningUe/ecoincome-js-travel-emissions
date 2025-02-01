@@ -2,7 +2,10 @@ import { Injectable } from '@nestjs/common';
 
 @Injectable()
 export class AppService {
-  getHello(): string {
+  getCO2EmissionKgTotalPerPerson(): string {
+    return 'Hello World!';
+  }
+  getAvailableTransportationModes(): string {
     return 'Hello World!';
   }
 }

@@ -11,13 +11,6 @@ abstract class DistanceGetterBase {
 
 
 export class DistanceGetterGoogle extends DistanceGetterBase {
-  private apiKey: string;
-  
-  constructor(apiKey: string) {
-    super();
-    this.apiKey = apiKey;
-  }
-
 
   async getDistanceAsKm(
     transportationMode: TransportationMode,
@@ -47,13 +40,16 @@ export class DistanceGetterGoogle extends DistanceGetterBase {
       [TransportationMode.PublicTransit, 'transit'],
       [TransportationMode.Bike, 'bicycling'],
     ]);
-  
+    const GOOGLE_MAPS_API_KEY: string = <string>process.env.GOOGLE_MAPS_API_KEY;
+    if (GOOGLE_MAPS_API_KEY === undefined) {
+      throw new Error('GOOGLE_MAPS_API_KEY is not defined in your environment.');
+    }
     const params = {
         origins: origin,
         destinations: destination,
         mode: transpModeMap.get(transportationMode),
         units:'metric',
-        key: this.apiKey,
+        key: GOOGLE_MAPS_API_KEY,
     };
     try {
         var response = await axios.get(endpoint, { params });

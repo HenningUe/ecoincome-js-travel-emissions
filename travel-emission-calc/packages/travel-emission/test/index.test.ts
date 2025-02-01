@@ -10,17 +10,17 @@ const GOOGLE_MAPS_API_KEY: string = <string>process.env.GOOGLE_MAPS_API_KEY;
 describe('Main functions check', () => {
 
   it('async', async () => {
-    const dist = await getDistanceKm(GOOGLE_MAPS_API_KEY, "Car", "Berlin", "Munich");
+    const dist = await getDistanceKm("Car", "Berlin", "Munich");
     expect(dist).toEqual(585);
   }, 100000);
 
   it('async', async () => {
-    const emission = await getCO2EmissionKgTotalPerPerson(GOOGLE_MAPS_API_KEY, "Car", "Berlin", "Munich");
+    const emission = await getCO2EmissionKgTotalPerPerson("Car", "Berlin", "Munich");
     expect(emission).toBe(99.45);
   }, 100000);
 
   it('async', async () => {
-    const emission = await getCO2EmissionKgTotalPerPerson(GOOGLE_MAPS_API_KEY, "Bike", "Berlin", "Munich");
+    const emission = await getCO2EmissionKgTotalPerPerson("Bike", "Berlin", "Munich");
     expect(emission).toBe(0);
   }, 100000);
 });
