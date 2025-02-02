@@ -1,9 +1,8 @@
 {
-  "name": "travel-emission-restapi",
+  "name": "@travel-emission-calc/travel-emission-restapi",
   "version": "0.0.1",
   "description": "",
   "author": "",
-  "private": true,
   "license": "UNLICENSED",
   "scripts": {
     "build": "nest build",
@@ -26,8 +25,8 @@
     "@nestjs/swagger":"^11.0.3",
     "reflect-metadata": "^0.2.2",
     "rxjs": "^7.8.1",
-    "@travel-emission-calc/travel-emission": "^1.0.0",
-    "class-validator": "^0.14.1"
+    "class-validator": "^0.14.1",
+    "@travel-emission-calc/travel-emission": "workspace:*"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3.2.0",

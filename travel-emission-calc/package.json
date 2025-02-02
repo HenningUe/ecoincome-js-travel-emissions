@@ -1,15 +1,16 @@
 {
-    "private":true,
-    "dependencies": {
+    "dependencies": {        
+        "typescript":"^5.7.3",
         "@travel-emission-calc/travel-emission":"1.0.0",
-        "@nestjs/cli":"11.0.2"
+        "@nestjs/cli":"11.0.2",        
+        "class-validator": "^0.14.1"
     },
     "devDependencies":{
         "@types/node":"^22.12.0",
-        "typescript":"^5.7.3",
         "@vitejs/plugin-vue":"^5.2.1",
         "tsup":"^8.3.5",
-        "vitest":"^3.0.4"
+        "vitest":"^3.0.4",
+        "dotenv": "^10.0.0"
         },
     "scripts": {
         "build": "tsc",

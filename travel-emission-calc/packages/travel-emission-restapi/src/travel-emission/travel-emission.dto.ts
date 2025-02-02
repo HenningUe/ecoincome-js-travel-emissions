@@ -1,7 +1,8 @@
 
 
-import { IsEnum, IsOptional, IsString } from 'class-validator';
-import { TransportationMode, TransportationModeUtils } from '../../../travel-emission/src/enums';
+import { IsEnum, IsString } from 'class-validator';
+import { TransportationMode, TransportationModeUtils } from '../../../travel-emission/src/index';
+export { TransportationMode };
 
 
 export class getCO2EmissionDto {
@@ -11,4 +12,10 @@ export class getCO2EmissionDto {
     origin: string;
     @IsString()
     destination: string;
+    
+    constructor(TransportationMode: TransportationMode, origin: string, destination: string) {
+      this.TransportationMode = TransportationMode;
+      this.origin = origin;
+      this.destination = destination;
+    }
   }

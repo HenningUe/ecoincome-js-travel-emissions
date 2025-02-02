@@ -1,5 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { TravelEmissionController } from './travel-emission.controller';
+import { TravelEmissionService } from './travel-emission.service';
+import { describe, it, expect, beforeEach } from 'vitest';
 
 describe('TravelEmissionController', () => {
   let controller: TravelEmissionController;

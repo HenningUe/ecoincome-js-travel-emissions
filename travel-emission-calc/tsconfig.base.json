@@ -1,5 +1,6 @@
 {
     "compilerOptions": {
+      "baseUrl": ".",
       "target": "ESNext",
       "module": "ESNext",
       "moduleResolution": "node",
@@ -9,16 +10,19 @@
       "removeComments": true,
       "composite": true, 
       "preserveConstEnums": true,
-      "allowImportingTsExtensions": true,
+      //"allowImportingTsExtensions": true,
       "emitDeclarationOnly": true,
-      "outDir": "./out",
-      "rootDir": "./packages",
+      "outDir": "dist",
+      "rootDir": "packages",
       "lib": [ "esnext", "dom" ],
       "types": [ "node" ],
       "allowSyntheticDefaultImports": true,
       "declaration": true,
       "declarationMap": true,
       "sourceMap": true,
+      "paths": {
+        "@travel-emission-calc/*": ["packages/*/src"]
+      }
     },
 
     "include": [

@@ -1,3 +1,6 @@
+
+tsup instead of tsc
+
 https://graphite.dev/guides/npm-typescript
 
 

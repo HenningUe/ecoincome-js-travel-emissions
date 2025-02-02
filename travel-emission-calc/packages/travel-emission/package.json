@@ -2,35 +2,30 @@
   "name": "@travel-emission-calc/travel-emission",
   "description": "Calculations for travel emissions depending on the mode of transport",
   "version": "1.0.0",
-  "main": "out/index.js",
-  "module": "out/index.js",
-  "types": "out/index.d.ts",
+  "main": "dist/index.js",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
   "exports": {
     ".": {
-      "import": "./out/index.js",
-      "require": "./out/index.cjs"
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
     }
   },
-  "files": ["out"],
+  "files": ["dist"],
   "dependencies": {
-    "axios": "^1.7.9",
-    "typescript":"^5.7.3",
-    "tsup":"^8.3.5"
+    "axios": "^1.7.9"
+  },
+  "devDependencies": {
   },
   "compilerOptions": {
     "types": [
     ]
   },
   "scripts": {
-    "test": "vitest"
+    "test": "vitest",
+    "build": "tsc"
   },
   "keywords": [],
   "author": "",
-  "license": "ISC",
-  "devDependencies": {
-    "@types/node": "^22.12.0",
-    "vitest":"^3.0.4",
-    "@vitejs/plugin-vue":"^5.2.1",
-    "dotenv": "^10.0.0"
-  }
+  "license": "ISC"
 }

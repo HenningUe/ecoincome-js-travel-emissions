@@ -1,7 +1,7 @@
 
 
 
-export { TransportationMode } from './enums';
+export { TransportationMode, TransportationModeUtils } from './enums';
 import { TransportationMode, TransportationModeUtils } from './enums';
 import { DistanceGetterGoogle } from './dist_getter';
 

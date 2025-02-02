@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
-import { getCO2EmissionKgTotalPerPerson,  } from '../../../travel-emission';
+//import { getCO2EmissionKgTotalPerPerson,  } from '@travel-emission-calc/travel-emission';
+import { getCO2EmissionKgTotalPerPerson } from '../../../travel-emission/src/index';
 import { getCO2EmissionDto } from './travel-emission.dto';
 
 @Injectable()
