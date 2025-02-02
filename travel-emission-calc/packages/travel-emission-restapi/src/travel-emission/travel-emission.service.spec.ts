@@ -18,10 +18,13 @@ describe('TravelEmissionService', () => {
     service = module.get<TravelEmissionService>(TravelEmissionService);
   });
 
+  it('should be defined', () => {
+    expect(service).toBeDefined();
+  });
 
   it('getCO2EmissionKgTotalPerPerson', async () => {    
     let paramDto = new getCO2EmissionDto(TransportationMode.Car, "munich", "paris");
     const emission = await service.getCO2EmissionKgTotalPerPerson(paramDto);
-    expect(emission).toBe(143.14000000000001);
+    expect(emission).toBe(143.1);
   });
 });

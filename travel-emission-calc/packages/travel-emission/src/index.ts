@@ -36,6 +36,7 @@ export async function getCO2EmissionKgTotalPerPerson(
     } else {
         distance = await getDistanceKm(transportMode, origin, destination);
     }
-    const emission: number = distance * CO2_EMISSION_KG_PER_KM[transportMode];
+    let emission: number = distance * CO2_EMISSION_KG_PER_KM[transportMode];
+    emission = Number(emission.toFixed(1));
     return emission;
 }

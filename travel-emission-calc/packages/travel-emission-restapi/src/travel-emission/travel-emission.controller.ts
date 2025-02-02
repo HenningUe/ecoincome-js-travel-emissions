@@ -1,4 +1,4 @@
-import { Controller, Get, Query, ValidationPipe, Body } from '@nestjs/common';
+import { Controller, Get, Req, Query, ValidationPipe, Body } from '@nestjs/common';
 import { TravelEmissionService } from './travel-emission.service';
 import { getCO2EmissionDto } from './travel-emission.dto';
 
@@ -6,9 +6,9 @@ import { getCO2EmissionDto } from './travel-emission.dto';
 export class TravelEmissionController {
     constructor(private travelEmissionService: TravelEmissionService) {}
     
-    @Get()
+    @Get(':getCO2EmissionKgTotalPerPerson')
     async getCO2EmissionKgTotalPerPerson(
-        @Body() paramDto: getCO2EmissionDto): Promise<number> {
+        @Query(new ValidationPipe({ transform: true })) paramDto: getCO2EmissionDto): Promise<number> {
         return this.travelEmissionService.getCO2EmissionKgTotalPerPerson(paramDto);
     }
     
