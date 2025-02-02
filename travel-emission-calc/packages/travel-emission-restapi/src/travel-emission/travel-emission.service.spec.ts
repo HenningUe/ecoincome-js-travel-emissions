@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { TravelEmissionService } from './travel-emission.service';
 import { getCO2EmissionDto, TransportationMode } from './travel-emission.dto';
-import { describe, it, expect, beforeEach } from 'vitest';
+
 
 const dotenv = require('dotenv');
 dotenv.config();
@@ -16,10 +16,6 @@ describe('TravelEmissionService', () => {
     }).compile();
 
     service = module.get<TravelEmissionService>(TravelEmissionService);
-  });
-
-  it('should be defined', () => {
-    expect(service).toBeDefined();
   });
 
   it('getCO2EmissionKgTotalPerPerson', async () => {    

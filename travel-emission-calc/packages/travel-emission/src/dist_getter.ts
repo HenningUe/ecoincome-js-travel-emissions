@@ -55,6 +55,7 @@ export class DistanceGetterGoogle extends DistanceGetterBase {
         var response = await axios.get(endpoint, { params });
     } catch (error) {
         console.error(`Request failed: ${error.message}`);
+        throw new Error(`Request failed: ${error.message}`);
     }
     const data = await response.data;
     if (data.status !== 'OK') {

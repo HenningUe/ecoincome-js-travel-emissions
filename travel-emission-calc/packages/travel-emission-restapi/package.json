@@ -22,11 +22,10 @@
     "@nestjs/common": "^11.0.1",
     "@nestjs/core": "^11.0.1",
     "@nestjs/platform-express": "^11.0.1",
-    "@nestjs/swagger":"^11.0.3",
-    "reflect-metadata": "^0.2.2",
-    "rxjs": "^7.8.1",
+    "@nestjs/swagger": "^11.0.3",
     "class-validator": "^0.14.1",
-    "@travel-emission-calc/travel-emission": "workspace:*"
+    "reflect-metadata": "^0.2.2",
+    "rxjs": "^7.8.1"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3.2.0",
@@ -61,7 +60,7 @@
       "json",
       "ts"
     ],
-    "rootDir": "src",
+    "rootDir": ".",
     "testRegex": ".*\\.spec\\.ts$",
     "transform": {
       "^.+\\.(t|j)s$": "ts-jest"
