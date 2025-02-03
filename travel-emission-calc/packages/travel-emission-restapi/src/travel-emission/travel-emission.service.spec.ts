@@ -1,11 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { TravelEmissionService } from './travel-emission.service';
 import { getCO2EmissionDto, TransportationMode } from './travel-emission.dto';
-
-
-const dotenv = require('dotenv');
-dotenv.config();
-const GOOGLE_MAPS_API_KEY: string = <string>process.env.GOOGLE_MAPS_API_KEY;
+import '../../test/_test-common'
 
 describe('TravelEmissionService', () => {
   let service: TravelEmissionService;

@@ -4,7 +4,9 @@ import { INestApplication } from '@nestjs/common';
 import request from 'supertest';
 import { App } from 'supertest/types';
 import { AppModule } from '../src/app.module';
-import { describe, it, expect, beforeEach } from 'vitest';
+//import { describe, it, expect, beforeEach } from 'vitest';
+
+import './_test-common'
 
 describe('AppController (e2e)', () => {
   let app: INestApplication<App>;
@@ -22,7 +24,7 @@ describe('AppController (e2e)', () => {
     return request(app.getHttpServer())
       .get('/travel-emission/getCO2EmissionKgTotalPerPerson/?TransportationMode=Car&origin=munich&destination=paris')
       .expect(200)
-      .expect('Hello World!');
+      .expect("143.1");
   });
   
 });
