@@ -1,16 +1,13 @@
 import { Injectable } from '@nestjs/common';
-//import { getCO2EmissionKgTotalPerPerson,  } from '@travel-emission-calc/travel-emission';
-import { getCO2EmissionKgTotalPerPerson } from '../../../travel-emission/src/index';
-import { getCO2EmissionDto } from './travel-emission.dto';
+import { getCO2EmissionKgTotalPerPerson } from '@travel-emission-calc/travel-emission';
 
 @Injectable()
 export class TravelEmissionService {
   
-  async getCO2EmissionKgTotalPerPerson(
-    paramDto: getCO2EmissionDto): Promise<number> {
-    return getCO2EmissionKgTotalPerPerson(
-      paramDto.TransportationMode, paramDto.origin, paramDto.destination);
+    create(
+        transportMode: string,
+        origin: string,
+        destination: string): Promise<number> {
+        getCO2EmissionKgTotalPerPerson(GOOGLE_MAPS_API_KEY, transportMode, origin, destination);
   }
 }
-
-
