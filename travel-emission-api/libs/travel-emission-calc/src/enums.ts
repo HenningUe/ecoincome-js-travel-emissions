@@ -5,7 +5,7 @@ export enum TransportationMode {
     PublicTransit,
     PlaneDomestic,
     PlaneInternational,
-    Bike
+    Bike,
 }
 
 export class TransportationModeUtils {

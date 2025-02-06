@@ -1,0 +1,190 @@
+## Introduction
+At eco.income, we're working on solutions to help businesses understand and manage their climate impact. As part of our technical assessment, we'd like you to create a focused service that aligns with our mission while demonstrating your technical capabilities.
+
+
+## The Challenge: Business Travel Emissions Calculator
+Your task is to develop a service that helps companies track and calculate the carbon footprint of their business travel. This represents a simplified version of real-world challenges we tackle at eco.income.
+
+ 
+### Context
+Companies need to track their Scope 3 emissions, which include business travel. Your service will provide an API that allows companies to register their travel bookings and receive emissions calculations based on the mode of transportation and distance traveled.
+
+### Core Features
+The service should provide the following capabilities:
+
+
+1. Travel Booking Registration
+   - Companies should be able to register new travel bookings with details such as transportation type, distance, and date
+   - The system should support three types of transportation: flights, train rides, and car rentals
+   - Each booking should be associated with a company identifier
+
+2. Emissions Calculation
+   - Calculate CO2 emissions for each booking using the following simplified factors:
+     - Flights: 0.2 kg CO2 per kilometer
+     - Train rides: 0.04 kg CO2 per kilometer
+     - Car rentals: 0.14 kg CO2 per kilometer
+
+3. Reporting
+   - Provide endpoints to retrieve emission reports
+   - Support aggregation by time periods (e.g., weekly, monthly)
+   - Allow filtering by transportation type
+
+## Technical Requirements
+### Backend Development
+- Implement a RESTful or GraphQL API using any backend framework of your choice
+- Design and implement a suitable database schema
+- Include appropriate error handling and input validation
+- Implement business logic for emissions calculations
+
+### Database
+- Use any database system you're comfortable with
+- Design a schema that efficiently supports the required operations
+- Include any necessary indexes for query optimization
+
+### Testing
+- Implement automated tests for core functionality
+- Include both unit tests and integration tests
+- Demonstrate test coverage for critical paths
+
+### Documentation
+- Provide API documentation (OpenAPI/Swagger recommended)
+- Include a comprehensive README with:
+  - Setup instructions
+  - API usage examples
+  - Architecture overview
+  - Deployment instructions
+
+### Deployment
+- Deploy the service to a cloud platform of your choice
+- Provide access to the deployed API
+- Include any necessary environment configuration
+
+
+## Bonus Features
+
+ 
+
+While not required, implementing any of these features would be a plus:
+
+- Authentication and authorization
+
+- Docker containerization
+
+- CI/CD pipeline
+
+- Rate limiting
+
+- Request logging and monitoring
+
+- Additional emission factors or calculation methods
+
+ 
+
+## Evaluation Criteria
+
+ 
+
+Your submission will be evaluated based on:
+
+ 
+
+1. Code Quality
+
+   - Clean, maintainable code structure
+
+   - Proper error handling
+
+   - Effective use of design patterns
+
+   - Code reusability
+
+ 
+
+2. Technical Decisions
+
+   - Choice and implementation of architecture
+
+   - Database design decisions
+
+   - API design and usability
+
+   - Security considerations
+
+ 
+
+3. Documentation
+
+   - Code documentation
+
+   - API documentation
+
+   - Setup instructions
+
+   - Architecture explanation
+
+ 
+
+4. Testing
+
+   - Test coverage
+
+   - Test quality and organization
+
+   - Integration test approach
+
+ 
+
+5. Deployment
+
+   - Deployment strategy
+
+   - Environment configuration
+
+   - Service accessibility
+
+ 
+
+## Submission Guidelines
+
+ 
+
+1. Share your code through a Git repository
+
+2. Provide access to the deployed API
+
+3. Include all necessary documentation
+
+4. Share any credentials required for testing
+
+ 
+
+## Time Expectation
+
+ 
+
+The challenge is designed to be completed in 4-8 hours of focused work, or spread across several days with 1-2 hours per day. While you can spend more time if you wish to implement bonus features, the core requirements should be achievable within this timeframe.
+
+ 
+
+## Interview Discussion
+
+ 
+
+During the technical interview, we'll:
+- Review your solution together
+- Discuss your technical choices
+- Explore potential improvements
+- Consider scaling and security aspects
+- Possibly extend the solution with additional features
+
+ 
+
+We're interested in understanding your thought process and how you approach technical challenges, not just the end result.
+
+ 
+
+## Questions
+
+ 
+
+If you have any questions about the requirements or need clarification, please don't hesitate to ask. We want to ensure you have all the information needed to successfully complete the challenge.
