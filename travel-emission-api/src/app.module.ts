@@ -6,14 +6,17 @@ import { databaseCfgForPostgres } from './config/typeorm.config';
 import { ConfigModule } from '@nestjs/config';
 import { Company, TravelRecord } from './entities/travel-emission.entity';
 import {TravelRecordRepository, CompanyRepository} from './app.service';
+import { DataSource } from 'typeorm';
 
 @Module({
   imports: [
     ConfigModule.forRoot(),
     TypeOrmModule.forRoot(databaseCfgForPostgres.getTypeOrmConfig()),
-    TypeOrmModule.forFeature([TravelRecordRepository, CompanyRepository, Company, TravelRecord]),
+    TypeOrmModule.forFeature([Company, TravelRecord]),
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, TravelRecordRepository, CompanyRepository],
 })
-export class AppModule {}
+export class AppModule {
+  constructor(private dataSource: DataSource) {}
+}

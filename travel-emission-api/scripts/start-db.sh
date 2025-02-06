@@ -7,7 +7,7 @@ set -a
 source ../.env
 set +a
 
-SERVER="my_database_server";
+SERVER="emissions_database_server";
 PW="$POSTGRES_PASSWORD";
 DB="$POSTGRES_DATABASE";
 echo $DB

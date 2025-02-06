@@ -14,6 +14,16 @@ export class AppController {
     return String(result);
   }
 
+  
+  @Get('addTravelRecordAsGet')
+  async addTravelRecordAsGet(
+    @Query(new ValidationPipe({ transform: true })) paramDto: addTravelRecordDto,
+  ): Promise<string> {
+    console.log("paramDto: ", paramDto);
+    await this.appService.addTravelRecord(paramDto);
+    return "OK";
+  }
+
 
   @Post('addTravelRecord')
   async addTravelRecord(

@@ -3,33 +3,33 @@ import { BaseEntity } from './base.entity';
 import { TransportationMode } from '@app/travel-emission-calc';
 
 
-@Entity()
+@Entity({ name: 'Company' })
 export class Company extends BaseEntity {
 
-  @Column({ type: 'varchar', length: 300 })
+  @Column({ type: 'varchar', length: 300, unique: true })
   name: string;
 
-  @Column({ type: 'varchar', length: 300 })
-  description: string;
-
-  @OneToMany(type => TravelRecord, travel => travel.company)
+  @OneToMany(() => TravelRecord, (travel) => travel.company)
   travelRecords: TravelRecord[];
 }
 
-@Entity()
+@Entity({ name: 'TravelRecord' })
 export class TravelRecord extends BaseEntity {
 
-  @ManyToOne(type => Company, company => company.travelRecords)
+  @ManyToOne(() => Company, (company) => company.travelRecords)
   company: Company;
 
-  @Column()
-  distance_km: number;
+  @Column({type: "float"})
+  distanceKm: number;
+
+  @Column({type: "float"})
+  emissionCO2: number;
 
   @Column({
     type: 'enum',
     enum: TransportationMode
   })
-  transport_mode: typeof TransportationMode;
+  transportationMode: TransportationMode;
 
   @Column({ type: 'timestamptz', default: () => 'CURRENT_TIMESTAMP' })
   travelDate: Date;

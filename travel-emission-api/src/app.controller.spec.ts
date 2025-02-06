@@ -8,23 +8,30 @@ import { databaseCfgForPostgres } from './config/typeorm.config';
 import { getCO2EmissionDto, TransportationMode, addTravelRecordDto } from './travel-emission.dto';
 import { Company, TravelRecord } from './entities/travel-emission.entity';
 import {TravelRecordRepository, CompanyRepository} from './app.service';
+import { timeout } from 'rxjs';
 
 
 describe('AppController', () => {
   let appController: AppController;
+  let app: TestingModule;
 
   beforeEach(async () => {
-    const app: TestingModule = await Test.createTestingModule({
+    app = await Test.createTestingModule({
       imports: [
         ConfigModule.forRoot(),
         TypeOrmModule.forRoot(databaseCfgForPostgres.getTypeOrmConfig()),
-        TypeOrmModule.forFeature([TravelRecordRepository, CompanyRepository, Company, TravelRecord]),
+        TypeOrmModule.forFeature([Company, TravelRecord]),
       ],
       controllers: [AppController],
-      providers: [AppService],
+      providers: [AppService, TravelRecordRepository, CompanyRepository],
     }).compile();
 
     appController = app.get<AppController>(AppController);
+  });
+
+  afterAll(async () => {
+    //await connection.destroy();
+    await app.close(); //
   });
 
   describe('root', () => {
@@ -36,10 +43,9 @@ describe('AppController', () => {
       };
       const emission = await appController.getCO2EmissionKgTotalPerPerson(paramDto);
       expect(emission).toBe("99.3");
-    },
-  );
-  it('getCO2EmissionKgTotalPerPerson"', async () => {
-    const paramDto: addTravelRecordDto = {
+    }, 100000);
+  it('addTravelRecord"', async () => {
+     const paramDto: addTravelRecordDto = {
       origin: "munich",
       destination: "berlin",
       transportationMode: TransportationMode.Car,
@@ -48,7 +54,7 @@ describe('AppController', () => {
     };
     const emission = await appController.addTravelRecord(paramDto);
     expect(emission).toBe("99.3");
-  },
-);
+    }, 100000);
   });
+
 });

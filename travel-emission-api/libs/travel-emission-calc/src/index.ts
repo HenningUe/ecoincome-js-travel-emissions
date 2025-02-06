@@ -19,7 +19,7 @@ export async function  getDistanceKm(
 export async function getCO2EmissionKgTotalPerPerson(
     transportMode: TransportationMode | string,
     origin: string,
-    destination: string): Promise<number> {
+    destination: string): Promise<Map<string, number>> {
     // source https://ourworldindata.org/travel-carbon-footprint
     const CO2_EMISSION_KG_PER_KM: Record<TransportationMode, number> = {
         [TransportationMode.Car]: 0.170,
@@ -29,14 +29,18 @@ export async function getCO2EmissionKgTotalPerPerson(
         [TransportationMode.PublicTransit]: 0.053,  // = (2*0.35 + 0.85)/10 = 2/3*train+1/3bus
         [TransportationMode.Bike]: 0,
     };
-    var distance: number;
+    var distanceKm: number;
     transportMode = TransportationModeUtils.convert2Enum(transportMode);
     if (transportMode === TransportationMode.Bike) {
-        distance = 0;
+        distanceKm = 0;
     } else {
-        distance = await getDistanceKm(transportMode, origin, destination);
+        distanceKm = await getDistanceKm(transportMode, origin, destination);
     }
-    let emission: number = distance * CO2_EMISSION_KG_PER_KM[transportMode];
-    emission = Number(emission.toFixed(1));
-    return emission;
+    let emissionCO2: number = distanceKm * CO2_EMISSION_KG_PER_KM[transportMode];
+    emissionCO2 = Number(emissionCO2.toFixed(1));
+    const returnValues = new Map<string, number>([
+        ['emissionCO2', emissionCO2],
+        ['distanceKm', distanceKm],
+      ]);
+    return returnValues;
 }

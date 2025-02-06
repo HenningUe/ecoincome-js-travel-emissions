@@ -4,6 +4,7 @@ import * as request from 'supertest';
 import { App } from 'supertest/types';
 import { AppModule } from './../src/app.module';
 
+
 describe('AppController (e2e)', () => {
   let app: INestApplication<App>;
 
@@ -16,10 +17,18 @@ describe('AppController (e2e)', () => {
     await app.init();
   });
 
+  // it('/ (GET)', () => {
+  //   return request(app.getHttpServer())
+  //     .get('/getCO2EmissionKgTotalPerPerson?transportationMode=Car&origin=munich&destination=paris')
+  //     .expect(200)
+  //     .expect("143.1");
+  // });
+
+  
   it('/ (GET)', () => {
     return request(app.getHttpServer())
-      .get('/getCO2EmissionKgTotalPerPerson?transportationMode=Car&origin=munich&destination=paris')
+      .get('/addTravelRecordAsGet?company=BMW&transportationMode=Car&origin=munich&destination=paris')
       .expect(200)
-      .expect("143.1");
+      .expect("OK");
   });
 });

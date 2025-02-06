@@ -69,7 +69,7 @@ export class DistanceGetterGoogle extends DistanceGetterBase {
       throw new Error(`API error. element.status: ${element.status}`);
     }
     let distanceMeter: number = await element.distance.value;
-    console.debug(`Distance: ${distanceMeter}`);
+    //console.debug(`Distance: ${distanceMeter}`);
     let distanceKm: number = distanceMeter / 1000;
     distanceKm = Number(distanceKm.toFixed(1))
     return distanceKm;
