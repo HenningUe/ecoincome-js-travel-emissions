@@ -57,10 +57,10 @@ class DatabaseCfg {
       database: this.getValue('POSTGRES_DATABASE'),
       entities: entities_to_apply,
       synchronize: true,
+      autoLoadEntities: true,
       migrationsTableName: 'migration',
       migrations: ['src/migration/*.ts'],
       migrationsRun: true,
-      autoLoadEntities: true,
       ssl: this.isProduction(),
     };
   }

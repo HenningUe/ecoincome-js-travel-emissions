@@ -9,37 +9,37 @@ export class Company extends BaseEntity {
   @Column({ type: 'varchar', length: 300, unique: true })
   name: string;
 
-  // @OneToMany(() => TravelRecord, (travel) => travel.company)
-  // travelRecords: TravelRecord[];
+  @OneToMany(() => TravelRecord, (travel) => travel.company)
+  travelRecords: TravelRecord[];
 }
 
-// @Entity({ name: 'TravelRecord' })
-// export class TravelRecord extends BaseEntity {
+@Entity({ name: 'TravelRecord' })
+export class TravelRecord extends BaseEntity {
 
-//   @ManyToOne(() => Company, (company) => company.travelRecords)
-//   company: Company;
+  @ManyToOne(() => Company, (company) => company.travelRecords)
+  company: Company;
 
-//   @Column({type: "float"})
-//   distanceKm: number;
+  @Column({type: "float"})
+  distanceKm: number;
 
-//   @Column({type: "float"})
-//   emissionCO2: number;
+  @Column({type: "float"})
+  emissionCO2: number;
 
-//   @Column({
-//     type: 'enum',
-//     enum: TransportationMode
-//   })
-//   transportationMode: TransportationMode;
+  @Column({
+    type: 'enum',
+    enum: TransportationMode
+  })
+  transportationMode: TransportationMode;
 
-//   @Column({ type: 'timestamptz', default: () => 'CURRENT_TIMESTAMP' })
-//   travelDate: Date;
+  @Column({ type: 'timestamptz', default: () => 'CURRENT_TIMESTAMP' })
+  travelDate: Date;
 
-//   @Column({ type: 'varchar', length: 300 })
-//   origin: string;
+  @Column({ type: 'varchar', length: 300 })
+  origin: string;
 
-//   @Column({ type: 'varchar', length: 300 })
-//   destination: string;
-// }
+  @Column({ type: 'varchar', length: 300 })
+  destination: string;
+}
 
 
 
