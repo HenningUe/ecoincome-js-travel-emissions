@@ -2,10 +2,11 @@
 
 import { IsEnum, IsString, IsDate } from 'class-validator';
 import { TransportationMode, TransportationModeUtils } from '@app/travel-emission-calc';
+import { Company } from '../entities/travel-emission.entity';
 export { TransportationMode };
 
 
-export class getCO2EmissionDto {
+export class getCO2EmissionSinglePersonDto {
 
     @IsEnum(TransportationMode,
       { message: `transportationMode must be one of: ${TransportationModeUtils.getAsString()}` })
@@ -25,6 +26,31 @@ export class getCO2EmissionDto {
       this.destination = destination;
     }
   }
+
+  
+export class getCO2EmissionPerDateRangeDto {
+  @IsString()
+  company: string;
+  @IsEnum(TransportationMode,
+    { message: `transportationMode must be one of: ${TransportationModeUtils.getAsString()}` })
+  transportationMode: TransportationMode | undefined = undefined;
+  @IsDate()
+  dateBegin: Date | undefined = undefined;
+  @IsDate()
+  dateEnd: Date | undefined = undefined;
+  
+  constructor(
+    company: string,
+    transportationMode: TransportationMode | undefined = undefined,
+    dateBegin: Date | undefined = undefined,
+    dateEnd: Date | undefined = undefined,
+  ) {
+    this.company = company;
+    this.transportationMode = transportationMode;
+    this.dateBegin = dateBegin;
+    this.dateEnd = dateEnd;
+  }
+}
 
   
   export class addTravelRecordDto {

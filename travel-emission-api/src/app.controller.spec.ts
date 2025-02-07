@@ -1,7 +1,11 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { getCO2EmissionDto, TransportationMode, addTravelRecordDto } from './dto/travel-emission.dto';
+import {
+  getCO2EmissionSinglePersonDto, TransportationMode,
+  addTravelRecordDto,
+  getCO2EmissionPerDateRangeDto,
+} from './dto/travel-emission.dto';
 
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { databaseCfgForPostgres } from './config/typeorm.config';
@@ -26,7 +30,7 @@ describe('AppController', () => {
 
   describe('travel-emission', () => {
     it('getCO2EmissionKgTotalPerPerson"', async () => {
-      const paramDto: getCO2EmissionDto = {
+      const paramDto: getCO2EmissionSinglePersonDto = {
         origin: "munich",
         destination: "berlin",
         transportationMode: TransportationMode.Car,
@@ -42,10 +46,17 @@ describe('AppController', () => {
       destination: "berlin",
       transportationMode: TransportationMode.Car,
       company: "BMW",
-      travelDate: new Date("2021-09-01"),
+      travelDate: new Date("2021-11-10"),
     };
     const result = await appController.addTravelRecord(paramDto);
     expect(result).toBe("OK");
+    }, 100000);
+
+    it('getCO2EmissionPerDateRangeDto"', async () => {
+      const paramDto = new getCO2EmissionPerDateRangeDto("BMW", TransportationMode.Car);
+      const emissionStr = await appController.getCO2EmissionKgPerDateRange(paramDto);
+      const emission = parseFloat(emissionStr);
+      expect(emission).toBeGreaterThan(99.3);
     }, 100000);
   });
 });

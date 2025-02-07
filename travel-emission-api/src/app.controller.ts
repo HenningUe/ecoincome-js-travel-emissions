@@ -1,6 +1,8 @@
 import { Controller, Get, Post, Body, Query, ValidationPipe } from '@nestjs/common';
 import { AppService } from './app.service';
-import { getCO2EmissionDto, addTravelRecordDto } from './dto/travel-emission.dto';
+import {
+  getCO2EmissionSinglePersonDto, addTravelRecordDto,
+  getCO2EmissionPerDateRangeDto } from './dto/travel-emission.dto';
 
 @Controller()
 export class AppController {
@@ -8,9 +10,18 @@ export class AppController {
 
   @Get('getCO2EmissionKgTotalPerPerson')
   async getCO2EmissionKgTotalPerPerson(
-    @Query(new ValidationPipe({ transform: true })) paramDto: getCO2EmissionDto,
+    @Query(new ValidationPipe({ transform: true })) paramDto: getCO2EmissionSinglePersonDto,
   ): Promise<string> {
     const result = await this.appService.getCO2EmissionKgTotalPerPerson(paramDto);
+    return String(result);
+  }
+
+
+  @Get('getCO2EmissionKgPerDateRange')
+  async getCO2EmissionKgPerDateRange(
+    @Query(new ValidationPipe({ transform: true })) paramDto: getCO2EmissionPerDateRangeDto,
+  ): Promise<string> {
+    const result = await this.appService.getCO2EmissionKgPerDateRange(paramDto);
     return String(result);
   }
 
