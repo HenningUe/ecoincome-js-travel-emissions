@@ -43,7 +43,11 @@ class DatabaseCfg {
     return mode != 'DEV';
   }
 
-  public getTypeOrmConfig(): TypeOrmModuleOptions {
+  public getTypeOrmConfig(entities: any[] | null=null): TypeOrmModuleOptions {
+    let entities_to_apply = ["dist/**/*.entity{.ts,.js}"];
+    if (entities != null) {
+      entities_to_apply.push(...entities);
+    }
     return {
       type: 'postgres',
       host: this.getValue('POSTGRES_HOST'),
@@ -51,14 +55,12 @@ class DatabaseCfg {
       username: this.getValue('POSTGRES_USER'),
       password: this.getValue('POSTGRES_PASSWORD'),
       database: this.getValue('POSTGRES_DATABASE'),
-      entities: ["dist/**/*.entity{.ts,.js}"],
+      entities: entities_to_apply,
+      synchronize: true,
       migrationsTableName: 'migration',
       migrations: ['src/migration/*.ts'],
       migrationsRun: true,
       autoLoadEntities: true,
-    //   cli: {
-    //     migrationsDir: 'src/migration',
-    //   },
       ssl: this.isProduction(),
     };
   }

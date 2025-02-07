@@ -1,21 +1,21 @@
 import { Module } from '@nestjs/common';
-import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { databaseCfgForPostgres } from './config/typeorm.config';
-import { ConfigModule } from '@nestjs/config';
-import { Company, TravelRecord } from './entities/travel-emission.entity';
-import {TravelRecordRepository, CompanyRepository} from './app.service';
+
 import { DataSource } from 'typeorm';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { databaseCfgForPostgres } from './config/typeorm.config';
+
+import { Company } from './entities/travel-emission.entity';
+
 
 @Module({
   imports: [
-    ConfigModule.forRoot(),
     TypeOrmModule.forRoot(databaseCfgForPostgres.getTypeOrmConfig()),
-    TypeOrmModule.forFeature([Company, TravelRecord]),
+    TypeOrmModule.forFeature([Company])
   ],
   controllers: [AppController],
-  providers: [AppService, TravelRecordRepository, CompanyRepository],
+  providers: [AppService],
 })
 export class AppModule {
   constructor(private dataSource: DataSource) {}
