@@ -1,11 +1,11 @@
 
 export enum TransportationMode {
-    Car,
-    CarWithRideSharing,
-    PublicTransit,
-    PlaneDomestic,
-    PlaneInternational,
-    Bike,
+    Car = 'Car',
+    CarWithRideSharing = 'CarWithRideSharing',
+    PublicTransit = 'PublicTransit',
+    PlaneDomestic = 'PlaneDomestic',
+    PlaneInternational = 'PlaneInternational',
+    Bike = 'Bike',
 }
 
 export class TransportationModeUtils {
@@ -24,8 +24,12 @@ export class TransportationModeUtils {
 
     static convert2Enum(value: TransportationMode | string): TransportationMode {
         if (typeof value === 'string') {
-            value = TransportationMode[value as keyof typeof TransportationMode];
+            if (!Object.values(TransportationMode).includes(value as TransportationMode) ) {
+                throw new Error(`Invalid transportation mode: ${value}`);
+            }
+            return value as TransportationMode;
+        } else {
+            return value;
         }
-        return value;
     }
   }

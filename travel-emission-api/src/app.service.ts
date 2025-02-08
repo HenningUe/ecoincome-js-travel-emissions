@@ -31,7 +31,7 @@ export class AppService {
     let company: Company | null = await this.companyRepository.findOne(
       { where: { name: c_name } });
     if (!company) {
-      const msg: string = (`The company ${company} does not exist` )
+      const msg: string = (`The company ${paramDto.company} does not exist` )
       throw new HttpException(msg, HttpStatus.NOT_FOUND);
     }
     let dateBegin = !paramDto.dateBegin ? new Date("0001-01-01") : new Date(paramDto.dateBegin);

@@ -10,7 +10,12 @@ Used technology:
  
 The example is executable in the codespace of this repo.
 
-The server runs locally on port 3000. Requests can be sent via a corresponding client (e.g. browser).
+How to use?
+- ask someone to provide you with a properly configured .env-file
+- navigate to folder `/workspaces/ecoincome-js-travel-emissions/travel-emission-api`
+- start db-server by calling `npm run start:dev:db`
+- start nestjs-app by calling `npm run start`
+- The server runs locally on port 3000. Requests can be sent via a corresponding client (e.g. browser).
 
 Functions implemented:
 - `getCO2EmissionKgTotalPerPerson`
