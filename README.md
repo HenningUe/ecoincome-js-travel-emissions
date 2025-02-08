@@ -16,6 +16,7 @@ How to use?
 - start db-server by calling `npm run start:dev:db`
 - start nestjs-app by calling `npm run start`
 - The server runs locally on port 3000. Requests can be sent via a corresponding client (e.g. browser).
+- Once server is running, read and try API-docs on "http://<address>/api"
 
 Functions implemented:
 - `getCO2EmissionKgTotalPerPerson`
