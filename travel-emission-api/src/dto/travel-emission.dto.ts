@@ -1,6 +1,6 @@
 
 
-import { IsEnum, IsString, IsDate, IsOptional } from 'class-validator';
+import { IsEnum, IsString, IsDate, IsOptional, IsNumber } from 'class-validator';
 import { TransportationMode, TransportationModeUtils } from '@app/travel-emission-calc';
 import { Company } from '../entities/travel-emission.entity';
 import { ApiProperty } from '@nestjs/swagger';
@@ -8,8 +8,7 @@ import { Type } from 'class-transformer';
 export { TransportationMode };
 
 
-export class getCO2EmissionSinglePersonDto {
-
+export class GetCO2EmissionSinglePersonDto {
     @ApiProperty({
       enum: TransportationMode,
       description: 'Used transportation mode',
@@ -42,7 +41,7 @@ export class getCO2EmissionSinglePersonDto {
   }
 
   
-export class getCO2EmissionPerDateRangeDto {
+export class GetCO2EmissionPerDateRangeDto {
   @ApiProperty({
     description: 'Company name',
   })
@@ -92,54 +91,87 @@ export class getCO2EmissionPerDateRangeDto {
   }
 }
 
+
   
-  export class addTravelRecordDto {
+class AddTravelRecordDtoBase {
 
-    @ApiProperty({
-      description: 'Company name',
-    })
-    @IsString()
-    company: string;
+  @ApiProperty({
+    description: 'Company name',
+  })
+  @IsString()
+  company: string;
+
+  @ApiProperty({
+    enum: TransportationMode,
+    description: 'Used transportation mode',
+  })
+  @IsEnum(TransportationMode,
+    { message: `transportationMode must be one of: ${TransportationModeUtils.getAsString()}` })
+  transportationMode: TransportationMode;
+
+  @ApiProperty({
+    type: Date,
+    description: 'Date of travel. Format: YYYY-MM-DD',
+  })
+  @Type(() => Date)
+  @IsDate()
+  travelDate: Date;
   
-    @ApiProperty({
-      enum: TransportationMode,
-      description: 'Used transportation mode',
-    })
-    @IsEnum(TransportationMode,
-      { message: `transportationMode must be one of: ${TransportationModeUtils.getAsString()}` })
-    transportationMode: TransportationMode;
-
-    @ApiProperty({
-      description: 'The origin of the trip',
-    })
-    @IsString()
-    origin: string;
-
-    @ApiProperty({
-      description: 'The destination of the trip',
-    })
-    @IsString()
-    destination: string;
-
-    @ApiProperty({
-      type: Date,
-      description: 'Date of travel. Format: YYYY-MM-DD',
-    })
-    @Type(() => Date)
-    @IsDate()
-    travelDate: Date;
-    
-    constructor(
-      transportationMode: TransportationMode,
-      origin: string,
-      destination: string,
-      company: string,
-      travelDate: Date,
-    ) {
-      this.transportationMode = transportationMode;
-      this.origin = origin;
-      this.destination = destination;
-      this.company = company;
-      this.travelDate = travelDate;
-    }
+  constructor(
+    transportationMode: TransportationMode,
+    company: string,
+    travelDate: Date,
+  ) {
+    this.transportationMode = transportationMode;
+    this.company = company;
+    this.travelDate = travelDate;
   }
+}
+
+  
+export class AddTravelRecordByOriginAndDestDto extends AddTravelRecordDtoBase{
+  
+  @ApiProperty({
+    description: 'The origin of the trip',
+  })
+  @IsString()
+  origin: string;
+
+  @ApiProperty({
+    description: 'The destination of the trip',
+  })
+  @IsString()
+  destination: string;
+  
+  constructor(
+    company: string,
+    transportationMode: TransportationMode,
+    travelDate: Date,
+    origin: string,
+    destination: string,
+  ) {
+    super(transportationMode, company, travelDate);
+    this.origin = origin;
+    this.destination = destination;
+  }
+}
+
+  
+export class AddTravelRecordByDistanceDto extends AddTravelRecordDtoBase{
+  
+  @ApiProperty({
+    description: 'The distance of the trip',
+  })
+  @IsNumber()
+  distance: number;
+  
+  constructor(
+    company: string,
+    transportationMode: TransportationMode,
+    travelDate: Date,
+    distance: number,
+  ) {
+    super(transportationMode, company, travelDate);
+    this.distance = distance;
+  }
+}

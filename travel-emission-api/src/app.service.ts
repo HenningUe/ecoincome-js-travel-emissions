@@ -1,10 +1,13 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Between, Repository } from 'typeorm';
-import {getCO2EmissionKgTotalPerPerson} from '@app/travel-emission-calc';
 import {
-  getCO2EmissionSinglePersonDto,
-  getCO2EmissionPerDateRangeDto, addTravelRecordDto } from './dto/travel-emission.dto';
+  getEmissionCO2KgPerDistanceInKm, getEmissionCO2KgTotalPerPerson,
+  TransportationMode} from '@app/travel-emission-calc';
+import {
+  GetCO2EmissionSinglePersonDto, GetCO2EmissionPerDateRangeDto, 
+  AddTravelRecordByOriginAndDestDto, AddTravelRecordByDistanceDto,
+} from './dto/travel-emission.dto';
 import { Company, TravelRecord } from './entities/travel-emission.entity';
 
 @Injectable()
@@ -16,15 +19,15 @@ export class AppService {
     private travelRecordRepository: Repository<TravelRecord>,
   ) {}
 
-  async getCO2EmissionKgTotalPerPerson(paramDto: getCO2EmissionSinglePersonDto): Promise<number> {
+  async getCO2EmissionKgTotalPerPerson(paramDto: GetCO2EmissionSinglePersonDto): Promise<number> {
     console.log("paramDto: ", paramDto);
-    const rtnData = await getCO2EmissionKgTotalPerPerson(
+    const rtnData = await getEmissionCO2KgTotalPerPerson(
       paramDto.transportationMode, paramDto.origin, paramDto.destination);
     return rtnData.get('emissionCO2') ?? 0;
   }
 
   async getCO2EmissionKgPerDateRange(
-    paramDto: getCO2EmissionPerDateRangeDto,
+    paramDto: GetCO2EmissionPerDateRangeDto,
   ): Promise<number> {
     console.log("paramDto: ", paramDto);
     const c_name: string = paramDto.company;
@@ -37,48 +40,73 @@ export class AppService {
     let dateBegin = !paramDto.dateBegin ? new Date("0001-01-01") : new Date(paramDto.dateBegin);
     let dateEnd = !paramDto.dateEnd ? new Date("9999-12-31") : new Date(paramDto.dateEnd);
     let whereCondition: any = {
-      //company: company,
+      company:  { name: paramDto.company },
       travelDate: Between(dateBegin, dateEnd),
-      relations: ["company"]
     };
     if (paramDto.transportationMode) {
-      whereCondition.TransportationMode = paramDto.transportationMode;
+      whereCondition.transportationMode = paramDto.transportationMode;
     }
-    const results = await this.travelRecordRepository.find(whereCondition);
+    const results = await this.travelRecordRepository.find({
+      where: whereCondition,
+      relations: ["company"],
+    });
     const emissionCO2Kg = results.reduce((sum, current) => sum + current.emissionCO2, 0);
     return emissionCO2Kg;
   }
 
 
-  async addTravelRecord(paramDto: addTravelRecordDto) {
+  async addTravelRecordByOriginAndDst(paramDto: AddTravelRecordByOriginAndDestDto) {
     console.debug("paramDto: ", paramDto);
-    const rtnData = await getCO2EmissionKgTotalPerPerson(
+    const rtnData = await getEmissionCO2KgTotalPerPerson(
       paramDto.transportationMode, paramDto.origin, paramDto.destination);
     const distanceKm: number = rtnData.get('distanceKm') ?? 0;
-    const emissionCO2: number = rtnData.get('emissionCO2') ?? 0;
 
-    const c_name: string = paramDto.company;
-    let company: Company | null = await this.companyRepository.findOne(
-      { where: { name: c_name } });
-    if (!company) {
-      company = this.companyRepository.create({ name: c_name });
-      await this.companyRepository.save(company);
+    return this.addTravelRecord(
+      paramDto.company, paramDto.transportationMode,
+      paramDto.travelDate, distanceKm,
+      paramDto.origin, paramDto.destination);
+  }
+
+
+  async addTravelRecordByDistance(paramDto: AddTravelRecordByDistanceDto) {
+    console.debug("paramDto: ", paramDto);
+    return this.addTravelRecord(
+      paramDto.company, paramDto.transportationMode,
+      paramDto.travelDate, paramDto.distance);
+  }
+
+  
+  private async addTravelRecord(
+    company_name: string,
+    transportationMode: TransportationMode,
+    travelDate: Date,
+    distanceKm: number,
+    origin: string | undefined = undefined,
+    destination: string | undefined = undefined,
+  ) {
+    const emissionCo2Kg = await getEmissionCO2KgPerDistanceInKm(transportationMode, distanceKm);
+
+    let companyObj: Company | null = await this.companyRepository.findOne(
+      { where: { name: company_name } });
+    if (!companyObj) {
+      companyObj = this.companyRepository.create({ name: company_name });
+      await this.companyRepository.save(companyObj);
     }
 
     let travelRecord: TravelRecord = this.travelRecordRepository.create({
-      company: company,
+      company: companyObj,
       distanceKm: distanceKm,
-      transportationMode: paramDto.transportationMode,
-      travelDate: paramDto.travelDate,
-      origin: paramDto.origin,
-      destination: paramDto.destination,
-      emissionCO2: emissionCO2,
+      transportationMode: transportationMode,
+      travelDate: travelDate,
+      origin: origin,
+      destination: destination,
+      emissionCO2: emissionCo2Kg,
     });
 
-    if (!company.travelRecords) {
-      company.travelRecords = [];
+    if (!companyObj.travelRecords) {
+      companyObj.travelRecords = [];
     }
-    company.travelRecords.push(travelRecord);
+    companyObj.travelRecords.push(travelRecord);
     await this.travelRecordRepository.save(travelRecord);
     return "OK";
   }
