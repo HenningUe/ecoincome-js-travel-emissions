@@ -54,8 +54,7 @@ describe('AppController', () => {
 
     it('getCO2EmissionPerDateRangeDto"', async () => {
       const paramDto = new GetCO2EmissionPerDateRangeDto("BMW", TransportationMode.Car);
-      const emissionStr = await appController.getCO2EmissionKgPerDateRange(paramDto);
-      const emission = parseFloat(emissionStr);
+      const emission = await appController.getCO2EmissionKgPerDateRange(paramDto);
       expect(emission).toBeGreaterThan(99.3);
     }, 100000);
   });
