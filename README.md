@@ -1,5 +1,5 @@
 # ecoincome-js-travel-emissions
-Example implementation of a REST API interface for recording and evaluating CO2 emissions caused by (business) travel.
+Example implementation of a REST API interface for recording and evaluating CO2 emissions caused by (business) travels.
 
 Used technology:
 - typescript
@@ -17,6 +17,16 @@ How to use?
 - start nestjs-app by calling `npm run start`
 - The server runs locally on port 3000. Requests can be sent via a corresponding client (e.g. browser).
 - Once server is running, read and try API-docs on "http://<address>/api"
+
+
+REST API considerations
+- REST-API design patterns applied, e.g. described in https://duttavishek.medium.com/ultimate-guide-to-rest-api-design-best-practices-and-patterns-3414933302f4
+- As this API shall focus be focused on CO2-emissions in the first place and be open for extensions at the same time the first and only level of the URI is called "emissions", thus the resulting address is "<address>/api/v1/emissions/.."
+- Same idea for the next URI level. Emissions tracking is currently limited to emissions caused by travels. "<address>/api/v1/emissions/travel-records/.." 
+- Accordingly adding records and retrieving emissions is done by:
+    - travel-records are added by applying the POST-method to "<address>/api/v1/emissions/travel-records"
+    - CO2-emissions are retrieved by applying the GET-method to "<address>/api/v1/emissions"
+    - For both methods an API-swagger documentation is provided. This documentation provides you with all detailed needed to properly apply the methods
 
 Functions implemented:
 - `getCO2EmissionKgTotalPerPerson`
