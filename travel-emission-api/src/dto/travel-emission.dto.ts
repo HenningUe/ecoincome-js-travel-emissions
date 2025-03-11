@@ -2,7 +2,6 @@
 
 import { IsEnum, IsString, IsDate, IsOptional, IsNumber } from 'class-validator';
 import { TransportationMode, TransportationModeUtils } from '@app/travel-emission-calc';
-import { Company } from '../entities/travel-emission.entity';
 import { ApiProperty } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
 export { TransportationMode };

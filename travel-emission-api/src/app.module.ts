@@ -3,16 +3,12 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 
 import { DataSource } from 'typeorm';
-import { TypeOrmModule } from '@nestjs/typeorm';
-import { databaseCfgForPostgres } from './config/typeorm.config';
-
-import { Company, TravelRecord } from './entities/travel-emission.entity';
+import { EmissionsModule } from './emissions/emissions.module';
 
 
 @Module({
   imports: [
-    TypeOrmModule.forRoot(databaseCfgForPostgres.getTypeOrmConfig()),
-    TypeOrmModule.forFeature([Company, TravelRecord])
+    EmissionsModule
   ],
   controllers: [AppController],
   providers: [AppService],

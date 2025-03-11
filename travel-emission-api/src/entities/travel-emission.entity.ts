@@ -4,20 +4,20 @@ import { TransportationMode } from '@app/travel-emission-calc';
 
 
 @Entity({ name: 'Company' })
-export class Company extends BaseEntity {
+export class CompanyEntity extends BaseEntity {
 
   @Column({ type: 'varchar', length: 300, unique: true })
   name: string;
 
-  @OneToMany(() => TravelRecord, (travel) => travel.company)
-  travelRecords: TravelRecord[];
+  @OneToMany(() => TravelRecordEntity, (travel) => travel.company)
+  travelRecords: TravelRecordEntity[];
 }
 
 @Entity({ name: 'TravelRecord' })
-export class TravelRecord extends BaseEntity {
+export class TravelRecordEntity extends BaseEntity {
 
-  @ManyToOne(() => Company, (company) => company.travelRecords)
-  company: Company;
+  @ManyToOne(() => CompanyEntity, (company) => company.travelRecords)
+  company: CompanyEntity;
 
   @Column({type: "float"})
   distanceKm: number;
