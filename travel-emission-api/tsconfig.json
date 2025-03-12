@@ -18,6 +18,12 @@
     "strictBindCallApply": false,
     "noFallthroughCasesInSwitch": false,
     "paths": {
+      "@app/enum-helper": [
+        "libs/enum-helper/src"
+      ],
+      "@app/enum-helper/*": [
+        "libs/enum-helper/src/*"
+      ],
       "@app/travel-emission-calc": [
         "libs/travel-emission-calc/src"
       ],

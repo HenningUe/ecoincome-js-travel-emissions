@@ -91,6 +91,33 @@ export class GetCO2EmissionPerDateRangeDto {
 }
 
 
+export enum DateAggregationUnit {
+  Day = 'Day',
+  Month = 'Month',
+  Year = 'Year',
+}
+
+
+export class GetCO2EmissionAggregatedPerDateRangeDto extends GetCO2EmissionPerDateRangeDto{
+  @ApiProperty({
+    description: 'Company name',
+  })
+  @IsEnum(DateAggregationUnit,
+    { message: `transportationMode must be one of: ${TransportationModeUtils.getAsString()}` })
+  dateAggregationUnit: DateAggregationUnit;
+  
+  
+  constructor(
+    company: string,
+    dateAggregationUnit: DateAggregationUnit,
+    transportationMode: TransportationMode | undefined = undefined,
+    dateBegin: Date | undefined = undefined,
+    dateEnd: Date | undefined = undefined,
+  ) {
+    super(company, transportationMode, dateBegin, dateEnd);
+    this.dateAggregationUnit = dateAggregationUnit;
+  }
+}
   
 class AddTravelRecordDtoBase {
 

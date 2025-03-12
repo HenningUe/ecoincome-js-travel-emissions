@@ -1,6 +1,6 @@
 
 import { Controller, Get, Query, ValidationPipe } from '@nestjs/common';
-import {  ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import {  ApiNotFoundResponse, ApiOperation, ApiTags, ApiOkResponse } from '@nestjs/swagger';
 import { EmissionsService } from './emissions.service';
 import { GetCO2EmissionPerDateRangeDto, GetCO2EmissionSinglePersonDto } from './../dto/travel-emission.dto';
 
@@ -16,8 +16,8 @@ export class EmissionsController {
         summary: `Calculates CO2 emissions for trips from the origin to the destination per person
         The distance is determined automatically. Depending on the means of transportation, 
         different CO2/km emissions are assumed.` })
-        @ApiResponse({
-        status: 200, description: 'CO2 emission in kg per person', 
+    @ApiOkResponse({
+        description: 'CO2 emission in kg per person', 
         schema: { type: 'number',}
         })
     async getCO2EmissionKgTotalPerPerson(
@@ -33,9 +33,12 @@ export class EmissionsController {
         for a given date range, company and transportation mode.
         The distance is determined automatically. Depending on the means of transportation, 
         different CO2/km emissions are assumed.` })
-    @ApiResponse({
-        status: 200, description: 'CO2 emission in kg per person', 
+    @ApiOkResponse({
+        description: 'CO2 emission in kg per person', 
         schema: { type: 'number',}
+    })
+    @ApiNotFoundResponse({
+        description: 'NotFoundException. Company not found',
     })
     async getCO2EmissionKgPerDateRange(
         @Query(new ValidationPipe({ transform: true })) paramDto: GetCO2EmissionPerDateRangeDto,

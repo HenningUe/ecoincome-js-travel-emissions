@@ -93,6 +93,7 @@
       "<rootDir>/libs/"
     ],
     "moduleNameMapper": {
+      "^@app/enum-helper(|/.*)$": "<rootDir>/libs/enum-helper/src/$1",
       "^@app/travel-emission-calc(|/.*)$": "<rootDir>/libs/travel-emission-calc/src/$1"
     }
   }

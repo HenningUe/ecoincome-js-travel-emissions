@@ -3,7 +3,7 @@ import {
   AddTravelRecordByOriginAndDestDto,
   AddTravelRecordByDistanceDto} from './../../dto/travel-emission.dto';
   import { TravelRecordsService } from './travel-records.service';
-import {  ApiCreatedResponse, ApiNotFoundResponse, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import {  ApiCreatedResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 
 
 @ApiTags('emissions/travel-records')
@@ -20,9 +20,6 @@ export class TravelRecordsController {
       description: 'Travel record added successfully', 
       schema: { type: 'number',}
     })
-    @ApiNotFoundResponse({
-      description: 'NotFoundException. Company not found',
-    })
     async addTravelRecordByOriginAndDest(
       @Body(new ValidationPipe({ transform: true })) paramDto: AddTravelRecordByOriginAndDestDto,
     ) {
@@ -37,9 +34,6 @@ export class TravelRecordsController {
     @ApiCreatedResponse({
       description: 'Travel record added successfully', 
       schema: { type: 'number',}
-    })
-    @ApiNotFoundResponse({
-      description: 'NotFoundException. Company not found',
     })
     async addTravelRecordByDistance(
       @Body(new ValidationPipe({ transform: true })) paramDto: AddTravelRecordByDistanceDto,

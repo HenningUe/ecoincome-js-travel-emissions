@@ -7,6 +7,15 @@
     "webpack": true
   },
   "projects": {
+    "enum-helper": {
+      "type": "library",
+      "root": "libs/enum-helper",
+      "entryFile": "index",
+      "sourceRoot": "libs/enum-helper/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/enum-helper/tsconfig.lib.json"
+      }
+    },
     "travel-emission-calc": {
       "type": "library",
       "root": "libs/travel-emission-calc",

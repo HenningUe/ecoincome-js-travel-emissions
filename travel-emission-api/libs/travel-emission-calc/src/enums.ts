@@ -1,4 +1,8 @@
 
+import { convert2Enum, getEnumAsString } from '@app/enum-helper';
+export { EnumError } from '@app/enum-helper';
+
+
 export enum TransportationMode {
     Car = 'Car',
     CarWithRideSharing = 'CarWithRideSharing',
@@ -18,18 +22,10 @@ export class TransportationModeUtils {
     }
 
     static getAsString(sep: string=", "): string {
-        const vals = Object.values(TransportationMode);
-        return vals.join(sep);
+        return getEnumAsString(TransportationMode)
     }
 
     static convert2Enum(value: TransportationMode | string): TransportationMode {
-        if (typeof value === 'string') {
-            if (!Object.values(TransportationMode).includes(value as TransportationMode) ) {
-                throw new Error(`Invalid transportation mode: ${value}`);
-            }
-            return value as TransportationMode;
-        } else {
-            return value;
-        }
+        return convert2Enum(TransportationMode, value);
     }
   }
