@@ -5,12 +5,14 @@ import { Repository } from 'typeorm';
 import {
   GetCO2EmissionSinglePersonDto, TransportationMode,
   GetCO2EmissionPerDateRangeDto,
-} from './..//dto/travel-emission.dto';
+  GetCO2EmissionAggregatedPerDateRangeDto,
+  DateAggregationUnit,
+} from './../dto/travel-emission.dto';
 import { CompanyEntity, TravelRecordEntity } from './../entities/travel-emission.entity';
 
 import { EmissionsController } from './emissions.controller';
 import { EmissionsService} from './emissions.service';
-import { createModuleBuilder } from './emissions-test-helper';
+import { createTestModuleBuilder } from './emissions.test-helper';
 
 
 jest.mock('@app/travel-emission-calc')
@@ -23,7 +25,7 @@ describe('EmissionsController', () => {
   let repositoryTravelRecordMock: Repository<TravelRecordEntity>;
 
   beforeEach(async () => {
-    const moduleBuilder: TestingModuleBuilder = createModuleBuilder(true);
+    const moduleBuilder: TestingModuleBuilder = createTestModuleBuilder(true);
     const module: TestingModule = await moduleBuilder.compile();
     service = module.get<EmissionsService>(EmissionsService);
     repositoryCompanyMock = module.get(getRepositoryToken(CompanyEntity));
@@ -42,9 +44,16 @@ describe('EmissionsController', () => {
       expect(emission).toBeCloseTo(100);
     }, 100000);
 
-    it('getCO2EmissionPerDateRangeDto"', async () => {
+    it('getCO2EmissionKgPerDateRange"', async () => {
       const paramDto = new GetCO2EmissionPerDateRangeDto("BMW", TransportationMode.Car);
       const emission = await controller.getCO2EmissionKgPerDateRange(paramDto);
+      expect(emission).toBeGreaterThan(99.3);
+    }, 100000);
+
+    it('getCO2EmissionKgPerDateRangeAggregated"', async () => {
+      const paramDto = new GetCO2EmissionAggregatedPerDateRangeDto(
+        "BMW", DateAggregationUnit.Week, TransportationMode.Car);
+      const emission = await controller.getCO2EmissionKgPerDateRangeAggregated(paramDto);
       expect(emission).toBeGreaterThan(99.3);
     }, 100000);
 

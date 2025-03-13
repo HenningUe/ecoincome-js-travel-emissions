@@ -3,7 +3,10 @@ export class EnumError extends Error {
 }
 
 
-export function getEnumAsString<T extends Record<string, string | number>>(
+export type EnumAlias = Record<string, string | number>;
+
+
+export function getEnumAsString<T extends EnumAlias>(
     enumType: T,
     sep: string=", ",
 ): string {
@@ -12,7 +15,7 @@ export function getEnumAsString<T extends Record<string, string | number>>(
 }
 
 
-export function convertStringToEnum<T extends Record<string, string | number>>(
+export function convertString2Enum<T extends EnumAlias>(
     enumType: T,
     value: string
 ): T[keyof T] {
@@ -22,12 +25,12 @@ export function convertStringToEnum<T extends Record<string, string | number>>(
     return value as T[keyof T];
 }
 
-export function convert2Enum<T extends Record<string, string | number>>(
+export function convert2Enum<T extends EnumAlias>(
     enumType: T,
     value: T | string,
 ): T[keyof T] {
     if (typeof value === 'string') {
-        return convertStringToEnum(enumType, value);
+        return convertString2Enum(enumType, value);
     } else {
         return value.toString() as T[keyof T];
     }

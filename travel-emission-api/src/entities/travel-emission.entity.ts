@@ -11,6 +11,12 @@ export class CompanyEntity extends BaseEntity {
 
   @OneToMany(() => TravelRecordEntity, (travel) => travel.company)
   travelRecords: TravelRecordEntity[];
+
+  constructor(name: string | undefined = undefined) {
+    super();
+    if (name != undefined) {
+      this.name = name}
+  }
 }
 
 @Entity({ name: 'TravelRecord' })

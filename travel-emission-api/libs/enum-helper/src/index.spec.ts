@@ -1,4 +1,4 @@
-import {getEnumAsString, convert2Enum, convertStringToEnum, EnumError} from './index';
+import {getEnumAsString, convert2Enum, convertString2Enum, EnumError} from './index';
 //import {describe, it, expect} from 'vitest';
 
 enum TestEnum {
@@ -16,12 +16,12 @@ describe('EnumConversion', () => {
   });
 
   it('convertStringToEnum', () => {
-    const asEnum = convertStringToEnum(TestEnum, "Bike");
+    const asEnum = convertString2Enum(TestEnum, "Bike");
     expect(asEnum).toBe(TestEnum.Bike);
   });
 
   it('convertStringToEnumInvalid', () => {
-    expect(() => {convertStringToEnum(TestEnum, "Lift")}).toThrow(EnumError);
+    expect(() => {convertString2Enum(TestEnum, "Lift")}).toThrow(EnumError);
   });
 
   it('convert2Enum', () => {

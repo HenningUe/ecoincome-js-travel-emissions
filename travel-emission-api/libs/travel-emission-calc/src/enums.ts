@@ -22,7 +22,7 @@ export class TransportationModeUtils {
     }
 
     static getAsString(sep: string=", "): string {
-        return getEnumAsString(TransportationMode)
+        return getEnumAsString(TransportationMode, sep)
     }
 
     static convert2Enum(value: TransportationMode | string): TransportationMode {

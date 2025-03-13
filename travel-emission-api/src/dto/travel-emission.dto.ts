@@ -2,6 +2,7 @@
 
 import { IsEnum, IsString, IsDate, IsOptional, IsNumber } from 'class-validator';
 import { TransportationMode, TransportationModeUtils } from '@app/travel-emission-calc';
+import { getEnumAsString } from '@app/enum-helper';
 import { ApiProperty } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
 export { TransportationMode };
@@ -92,7 +93,7 @@ export class GetCO2EmissionPerDateRangeDto {
 
 
 export enum DateAggregationUnit {
-  Day = 'Day',
+  Week = 'Week',
   Month = 'Month',
   Year = 'Year',
 }
@@ -100,10 +101,12 @@ export enum DateAggregationUnit {
 
 export class GetCO2EmissionAggregatedPerDateRangeDto extends GetCO2EmissionPerDateRangeDto{
   @ApiProperty({
-    description: 'Company name',
+    enum: DateAggregationUnit,
+    required: true,
+    description: 'Defines the time intervals in which the data is to be aggregated',
   })
   @IsEnum(DateAggregationUnit,
-    { message: `transportationMode must be one of: ${TransportationModeUtils.getAsString()}` })
+    { message: `dateAggregationUnit must be one of: ${getEnumAsString(DateAggregationUnit)}` })
   dateAggregationUnit: DateAggregationUnit;
   
   
@@ -118,7 +121,42 @@ export class GetCO2EmissionAggregatedPerDateRangeDto extends GetCO2EmissionPerDa
     this.dateAggregationUnit = dateAggregationUnit;
   }
 }
+
+
+export class GetCO2EmissionAggregatedPerDateRangeResponseDto {
+
+  @ApiProperty({
+    type: Date,
+    description: 'Interval start date. Format: YYYY-MM-DD.',
+  })
+  @Type(() => Date)
+  intervalDateBegin: Date;
   
+  @ApiProperty({
+    type: Date,
+    description: 'Interval end date. Format: YYYY-MM-DD.',
+  })
+  @Type(() => Date)
+  intervalDateEnd: Date;
+
+  @ApiProperty({
+    description: 'CO2-emissions in kg emitted during the interval',
+  })
+  emissionCo2InKg: number;
+  
+  constructor(
+    intervalDateBegin: Date,
+    intervalDateEnd: Date,
+    co2EmissionInKg: number,
+  ) {
+    this.intervalDateBegin = intervalDateBegin;
+    this.intervalDateEnd = intervalDateEnd;
+    this.emissionCo2InKg = co2EmissionInKg;
+  }
+}
+
+
+
 class AddTravelRecordDtoBase {
 
   @ApiProperty({
