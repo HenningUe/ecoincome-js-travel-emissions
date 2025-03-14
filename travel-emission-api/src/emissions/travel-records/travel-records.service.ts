@@ -49,29 +49,32 @@ export class TravelRecordsService {
   ) {
     const emissionCo2Kg = await getEmissionCO2KgPerDistanceInKm(transportationMode, distanceKm);
 
-    let companyObj: CompanyEntity | null = await this.companyRepository.findOne(
-      { where: { name: company_name } });
-    if (!companyObj) {
-      companyObj = this.companyRepository.create({ name: company_name });
-      await this.companyRepository.save(companyObj);
-    }
-
-    let travelRecord: TravelRecordEntity = this.travelRecordRepository.create({
-      company: companyObj,
-      distanceKm: distanceKm,
-      transportationMode: transportationMode,
-      travelDate: travelDate,
-      origin: origin,
-      destination: destination,
-      emissionCO2: emissionCo2Kg,
+    await this.companyRepository.manager.transaction(async manager => {
+      let companyEntity: CompanyEntity | null = await this.companyRepository.findOne(
+        { where: { name: company_name } });
+      if (!companyEntity) {
+        companyEntity = this.companyRepository.create({ name: company_name });
+        await this.companyRepository.save(companyEntity);
+      }
+  
+      await this.travelRecordRepository.manager.transaction(async manager => {
+        let travelRecordEntity = this.travelRecordRepository.create({
+          company: companyEntity,
+          distanceKm: distanceKm,
+          transportationMode: transportationMode,
+          travelDate: travelDate,
+          origin: origin,
+          destination: destination,
+          emissionCO2: emissionCo2Kg,
+        });
+        await this.travelRecordRepository.save(travelRecordEntity);
+        if (!companyEntity.travelRecords) {
+          companyEntity.travelRecords = [];
+        }
+        companyEntity.travelRecords.push(travelRecordEntity);
+      });
+  
     });
-
-    if (!companyObj.travelRecords) {
-      companyObj.travelRecords = [];
-    }
-    companyObj.travelRecords.push(travelRecord);
-    await this.travelRecordRepository.save(travelRecord);
-    return "OK";
   }
 
 }

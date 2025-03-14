@@ -41,7 +41,7 @@ export class GetCO2EmissionSinglePersonDto {
   }
 
   
-export class GetCO2EmissionPerDateRangeDto {
+export class GetEmissionCO2PerDateRangeDto {
   @ApiProperty({
     description: 'Company name',
   })
@@ -92,38 +92,38 @@ export class GetCO2EmissionPerDateRangeDto {
 }
 
 
-export enum DateAggregationUnit {
+export enum DatePeriodUnit {
   Week = 'Week',
   Month = 'Month',
   Year = 'Year',
 }
 
 
-export class GetCO2EmissionAggregatedPerDateRangeDto extends GetCO2EmissionPerDateRangeDto{
+export class GetCO2EmissionAggregatedPerDateRangeDto extends GetEmissionCO2PerDateRangeDto{
   @ApiProperty({
-    enum: DateAggregationUnit,
+    enum: DatePeriodUnit,
     required: true,
     description: 'Defines the time intervals in which the data is to be aggregated',
   })
-  @IsEnum(DateAggregationUnit,
-    { message: `dateAggregationUnit must be one of: ${getEnumAsString(DateAggregationUnit)}` })
-  dateAggregationUnit: DateAggregationUnit;
+  @IsEnum(DatePeriodUnit,
+    { message: `datePeriodUnit must be one of: ${getEnumAsString(DatePeriodUnit)}` })
+  datePeriodUnit: DatePeriodUnit;
   
   
   constructor(
     company: string,
-    dateAggregationUnit: DateAggregationUnit,
+    datePeriodUnit: DatePeriodUnit,
     transportationMode: TransportationMode | undefined = undefined,
     dateBegin: Date | undefined = undefined,
     dateEnd: Date | undefined = undefined,
   ) {
     super(company, transportationMode, dateBegin, dateEnd);
-    this.dateAggregationUnit = dateAggregationUnit;
+    this.datePeriodUnit = datePeriodUnit;
   }
 }
 
 
-export class GetCO2EmissionAggregatedPerDateRangeResponseDto {
+export class GetEmissionCO2PerDateRangeAggregatedResponseDto {
 
   @ApiProperty({
     type: Date,
@@ -131,13 +131,7 @@ export class GetCO2EmissionAggregatedPerDateRangeResponseDto {
   })
   @Type(() => Date)
   intervalDateBegin: Date;
-  
-  @ApiProperty({
-    type: Date,
-    description: 'Interval end date. Format: YYYY-MM-DD.',
-  })
-  @Type(() => Date)
-  intervalDateEnd: Date;
+
 
   @ApiProperty({
     description: 'CO2-emissions in kg emitted during the interval',
@@ -146,11 +140,9 @@ export class GetCO2EmissionAggregatedPerDateRangeResponseDto {
   
   constructor(
     intervalDateBegin: Date,
-    intervalDateEnd: Date,
     co2EmissionInKg: number,
   ) {
     this.intervalDateBegin = intervalDateBegin;
-    this.intervalDateEnd = intervalDateEnd;
     this.emissionCo2InKg = co2EmissionInKg;
   }
 }

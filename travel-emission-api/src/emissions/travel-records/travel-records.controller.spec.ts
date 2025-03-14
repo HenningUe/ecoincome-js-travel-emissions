@@ -5,7 +5,7 @@ import {
   TransportationMode,
   AddTravelRecordByOriginAndDestDto,
 } from './../../dto/travel-emission.dto';
-import { databaseCfgForPostgres } from './../../config/typeorm.config';
+import { databaseCfgForPostgres } from '../../config/database/postgres-database.config';
 import { CompanyEntity, TravelRecordEntity } from './../../entities/travel-emission.entity';
 import { TravelRecordsController } from './travel-records.controller';
 import { TravelRecordsService} from './travel-records.service';

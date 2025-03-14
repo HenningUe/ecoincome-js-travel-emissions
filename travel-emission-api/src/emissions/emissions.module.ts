@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { databaseCfgForPostgres } from './../config/typeorm.config';
+import { databaseCfgForPostgres } from '../config/database/postgres-database.config';
 import { CompanyEntity, TravelRecordEntity } from './../entities/travel-emission.entity';
 
 import { EmissionsService } from './emissions.service';

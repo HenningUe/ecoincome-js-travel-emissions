@@ -1,4 +1,13 @@
 import { PrimaryGeneratedColumn, Column, UpdateDateColumn, CreateDateColumn } from 'typeorm';
+import * as pg from 'pg';
+//import pg from 'pg'
+
+pg.defaults.parseInputDatesAsUTC = true;
+const dateParser = pg.types.getTypeParser(pg.types.builtins.TIMESTAMP);
+pg.types.setTypeParser(
+  pg.types.builtins.TIMESTAMP,
+  (val: string) => dateParser(`${val}Z`),
+);
 
 export abstract class BaseEntity {
     @PrimaryGeneratedColumn('uuid')
@@ -10,9 +19,9 @@ export abstract class BaseEntity {
     @Column({ type: 'boolean', default: false })
     isArchived: boolean;
 
-    @CreateDateColumn({ type: 'timestamptz', default: () => 'CURRENT_TIMESTAMP' })
+    @CreateDateColumn({default: () => 'CURRENT_TIMESTAMP' })
     createDateTime: Date;
 
-    @UpdateDateColumn({ type: 'timestamptz', default: () => 'CURRENT_TIMESTAMP' })
+    @UpdateDateColumn({default: () => 'CURRENT_TIMESTAMP' })
     lastChangedDateTime: Date;
 }

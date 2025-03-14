@@ -1,6 +1,5 @@
 import { TypeOrmModuleOptions } from '@nestjs/typeorm';
 import { DataSource } from 'typeorm';
-import { ConfigService } from '@nestjs/config';
 
 require('dotenv').config();
 
@@ -38,15 +37,15 @@ class DatabaseCfg {
     return this.getValue('POSTGRES_DATABASE', true);
   }
 
-  public isProduction() {
+  public isProduction(): boolean  {
     const mode = this.getValue('MODE', false);
     return mode != 'DEV';
   }
 
   public getTypeOrmConfig(entities: any[] | null=null): TypeOrmModuleOptions {
-    let entities_to_apply = ["dist/**/*.entity{.ts,.js}"];
+    let entitiesToApply = ["dist/**/*.entity{.ts,.js}"];
     if (entities != null) {
-      entities_to_apply.push(...entities);
+      entitiesToApply.push(...entities);
     }
     return {
       type: 'postgres',
@@ -55,7 +54,7 @@ class DatabaseCfg {
       username: this.getValue('POSTGRES_USER'),
       password: this.getValue('POSTGRES_PASSWORD'),
       database: this.getValue('POSTGRES_DATABASE'),
-      entities: entities_to_apply,
+      entities: entitiesToApply,
       synchronize: true,
       autoLoadEntities: true,
       migrationsTableName: 'migration',
@@ -67,7 +66,7 @@ class DatabaseCfg {
 }
 
 
-const databaseCfgForPostgres = new DatabaseCfg(process.env)
+const databaseCfg = new DatabaseCfg(process.env)
   .ensureValues([
     'POSTGRES_HOST',
     'POSTGRES_PORT',
@@ -77,13 +76,13 @@ const databaseCfgForPostgres = new DatabaseCfg(process.env)
   ]);
   
 
-const AppDataSource = new DataSource({
+const appDataSource = new DataSource({
   type: 'postgres',
-  host: databaseCfgForPostgres.getHost(),
-  port: parseInt(databaseCfgForPostgres.getPort()),
-  username: databaseCfgForPostgres.getUsername(),
-  password: databaseCfgForPostgres.getPassword(),
-  database: databaseCfgForPostgres.getDatabase(),
+  host: databaseCfg.getHost(),
+  port: parseInt(databaseCfg.getPort()),
+  username: databaseCfg.getUsername(),
+  password: databaseCfg.getPassword(),
+  database: databaseCfg.getDatabase(),
   synchronize: false,
   entities: ['**/*.entity.ts'],
   migrations: ['src/database/migrations/*-migration.ts'],
@@ -91,5 +90,5 @@ const AppDataSource = new DataSource({
   logging: true,
 });
 
-export default AppDataSource;
-export { databaseCfgForPostgres };
+export default appDataSource;
+export { databaseCfg as databaseCfgForPostgres };

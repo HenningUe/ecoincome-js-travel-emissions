@@ -2,7 +2,9 @@
 import { Controller, Get, Query, ValidationPipe } from '@nestjs/common';
 import {  ApiNotFoundResponse, ApiOperation, ApiTags, ApiOkResponse } from '@nestjs/swagger';
 import { EmissionsService } from './emissions.service';
-import { GetCO2EmissionAggregatedPerDateRangeDto, GetCO2EmissionAggregatedPerDateRangeResponseDto, GetCO2EmissionPerDateRangeDto, GetCO2EmissionSinglePersonDto } from './../dto/travel-emission.dto';
+import { GetCO2EmissionAggregatedPerDateRangeDto, GetEmissionCO2PerDateRangeAggregatedResponseDto,
+    GetEmissionCO2PerDateRangeDto, GetCO2EmissionSinglePersonDto,
+ } from './../dto/travel-emission.dto';
 
 
 @ApiTags('emissions')
@@ -23,7 +25,7 @@ export class EmissionsController {
     async getCO2EmissionKgTotalPerPerson(
         @Query(new ValidationPipe({ transform: true })) paramDto: GetCO2EmissionSinglePersonDto,
     ): Promise<number> {
-        const result = await this.emissionsService.getCO2EmissionKgTotalPerPerson(paramDto);
+        const result = await this.emissionsService.getEmissionCO2KgTotalPerPerson(paramDto);
         return result;
     }
 
@@ -39,9 +41,9 @@ export class EmissionsController {
         description: 'NotFoundException. Company not found',
     })
     async getCO2EmissionKgPerDateRange(
-        @Query(new ValidationPipe({ transform: true })) paramDto: GetCO2EmissionPerDateRangeDto,
+        @Query(new ValidationPipe({ transform: true })) paramDto: GetEmissionCO2PerDateRangeDto,
     ): Promise<number> {
-        const result = await this.emissionsService.getCO2EmissionKgPerDateRange(paramDto);
+        const result = await this.emissionsService.getEmissionCO2KgPerDateRange(paramDto);
         return result;
     }
 
@@ -49,10 +51,10 @@ export class EmissionsController {
     @ApiOperation({
         summary: `Calculates CO2 emissions for trips from the origin to the destination
         for a given date range, company and transportation mode.
-        CO2 emissions are aggregated (grouped) based on the dateAggregationUnit,
+        CO2 emissions are aggregated (grouped) based on the datePeriodUnit,
         i.e. split into weeks, months or years.` })
     @ApiOkResponse({
-        description: 'CO2 emission in kg per person grouped by dateAggregationUnit', 
+        description: 'CO2 emission in kg per person grouped by datePeriodUnit', 
         schema: { type: 'GetCO2EmissionAggregatedPerDateRangeResponseDto[]',}
     })
     @ApiNotFoundResponse({
@@ -61,12 +63,12 @@ export class EmissionsController {
     async getCO2EmissionKgPerDateRangeAggregated(
         @Query(new ValidationPipe({ transform: true })
     ) paramDto: GetCO2EmissionAggregatedPerDateRangeDto,
-    ): Promise<GetCO2EmissionAggregatedPerDateRangeResponseDto[]> {
-        const dateAggregationUnit = paramDto.dateAggregationUnit;
-        const paramDto2: GetCO2EmissionPerDateRangeDto = <GetCO2EmissionPerDateRangeDto>paramDto;
+    ): Promise<GetEmissionCO2PerDateRangeAggregatedResponseDto[]> {
+        const datePeriodUnit = paramDto.datePeriodUnit;
+        const paramDto2: GetEmissionCO2PerDateRangeDto = <GetEmissionCO2PerDateRangeDto>paramDto;
         const result = (
-            await this.emissionsService.getCO2EmissionKgAggregatedPerDateRange(
-                paramDto2, dateAggregationUnit));
+            await this.emissionsService.getEmissionCO2InKgAggregatedPerDateRange(
+                paramDto2, datePeriodUnit));
         return [] //result;
     }
 }

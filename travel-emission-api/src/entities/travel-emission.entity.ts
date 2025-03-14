@@ -32,12 +32,12 @@ export class TravelRecordEntity extends BaseEntity {
   emissionCO2: number;
 
   @Column({
-    type: 'enum',
+    //type: 'enum',
     enum: TransportationMode
   })
   transportationMode: TransportationMode;
 
-  @Column({ type: 'timestamptz', default: () => 'CURRENT_TIMESTAMP' })
+  @Column({ default: () => 'CURRENT_TIMESTAMP' })
   travelDate: Date;
 
   @Column({ type: 'varchar', length: 300 })
