@@ -1,8 +1,8 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { databaseCfgForPostgres } from '../../config/database/postgres-database.config';
+import { databaseCfgForPostgres } from '../../../database/configs/postgres-database.config';
 
-import { CompanyEntity, TravelRecordEntity } from './../../entities/travel-emission.entity';
+import { CompanyEntity, TravelRecordEntity } from '../../../database/entities/travel-emission.entity';
 import { TravelRecordsService } from './travel-records.service';
 import { TravelRecordsController } from './travel-records.controller';
 

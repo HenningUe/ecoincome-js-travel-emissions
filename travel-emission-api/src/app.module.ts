@@ -3,7 +3,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 
 import { DataSource } from 'typeorm';
-import { EmissionsModule } from './emissions/emissions.module';
+import { EmissionsModule } from './modules/emissions/emissions.module';
 
 
 @Module({

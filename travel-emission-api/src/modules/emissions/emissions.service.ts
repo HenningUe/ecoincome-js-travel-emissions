@@ -11,7 +11,7 @@ import {
 } from '../dto/travel-emission.dto';
 import {
   CompanyEntity, TravelRecordEntity 
- } from '../entities/travel-emission.entity';
+ } from '../../database/entities/travel-emission.entity';
 
 @Injectable()
 export class EmissionsService {
@@ -138,11 +138,18 @@ class EmissionQueryHandler {
       getPeriodStart = (date: Date) => results? results[0].travelDate : new Date(1, 1, 1);
     }
 
+    let minPeriodStart: Date = new Date(1, 1, 1);
     for(let i=0; i<results.length; i++){
       const item = results[i];
       let periodStartDate: Date = <Date>item.travelDate;
-      if (i > 0) {
+      if (i == 0) {
+        minPeriodStart = periodStartDate;
+      }
+      else if (i > 0) {
         periodStartDate = getPeriodStart(item.travelDate);
+      }
+      if (periodStartDate < minPeriodStart) {
+        periodStartDate = minPeriodStart;
       }
       let periodStartDateString = format(periodStartDate, 'yyyy-MM-dd')
       if (!groupedResults.has(periodStartDateString)) {

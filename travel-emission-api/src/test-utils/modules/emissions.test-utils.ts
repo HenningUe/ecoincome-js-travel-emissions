@@ -1,10 +1,10 @@
 import { Test, TestingModuleBuilder, } from '@nestjs/testing';
 import { getRepositoryToken, TypeOrmModule } from '@nestjs/typeorm';
-import { databaseCfgForSqlLiteInMemory } from '../../config/database/in-memory-database.config';
-import { CompanyEntity, TravelRecordEntity } from '../../entities/travel-emission.entity';
+import { databaseCfgForSqlLiteInMemory } from '../../database/configs/in-memory-database.config';
+import { CompanyEntity, TravelRecordEntity } from '../../database/entities/travel-emission.entity';
 import { MockFactory } from '../entities/travel-emission.entity.test-utils';
-import { EmissionsController } from '../../emissions/emissions.controller';
-import { EmissionsService } from '../../emissions/emissions.service';
+import { EmissionsController } from '../../modules/emissions/emissions.controller';
+import { EmissionsService } from '../../modules/emissions/emissions.service';
 import { ModuleMetadata } from '@nestjs/common';
 import { Repository } from 'typeorm';
 

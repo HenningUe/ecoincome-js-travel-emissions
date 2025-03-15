@@ -4,9 +4,9 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import {
   TransportationMode,
   AddTravelRecordByOriginAndDestDto,
-} from './../../dto/travel-emission.dto';
-import { databaseCfgForPostgres } from '../../config/database/postgres-database.config';
-import { CompanyEntity, TravelRecordEntity } from './../../entities/travel-emission.entity';
+} from '../../dto/travel-emission.dto';
+import { databaseCfgForPostgres } from '../../../database/configs/postgres-database.config';
+import { CompanyEntity, TravelRecordEntity } from '../../../database/entities/travel-emission.entity';
 import { TravelRecordsController } from './travel-records.controller';
 import { TravelRecordsService} from './travel-records.service';
 

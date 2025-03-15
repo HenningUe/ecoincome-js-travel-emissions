@@ -6,7 +6,7 @@ import { Repository } from 'typeorm';
 import {
   addMockData,
   createTestModuleBuilder, RepositoryMockStrategy 
-} from '../test-utils/modules/emissions.test-utils';
+} from '../../test-utils/modules/emissions.test-utils';
 
 import {
   GetCO2EmissionSinglePersonDto, TransportationMode,
@@ -14,7 +14,9 @@ import {
   GetCO2EmissionAggregatedPerDateRangeDto,
   DatePeriodUnit,
 } from '../dto/travel-emission.dto';
-import { CompanyEntity, TravelRecordEntity } from '../entities/travel-emission.entity';
+import { 
+  CompanyEntity, TravelRecordEntity
+} from '../../database/entities/travel-emission.entity';
 import { EmissionsController } from './emissions.controller';
 import { EmissionsService} from './emissions.service';
 
@@ -55,15 +57,40 @@ describe('EmissionsController', () => {
 
     it('getCO2EmissionKgPerDateRange"', async () => {
       const paramDto = new GetEmissionCO2PerDateRangeDto("BMW", TransportationMode.Car);
-      const emission = await controller.getCO2EmissionKgPerDateRange(paramDto);
-      expect(emission).toBeGreaterThan(99.3);
+      try {
+        await controller.getCO2EmissionKgPerDateRange(paramDto);
+        expect(true).toBe(false);
+      } catch (e) {
+          expect(e.message).toBe("The company BMW does not exist");
+      }
     }, 1000000);
 
-    it('getCO2EmissionKgPerDateRangeAggregated"', async () => {
+    it('getCO2EmissionKgPerDateRangeAggregatedWeek1"', async () => {
       const paramDto = new GetCO2EmissionAggregatedPerDateRangeDto(
         "ecoincome", DatePeriodUnit.Week, TransportationMode.Car);
       const emissionsGrouped = await controller.getCO2EmissionKgPerDateRangeAggregated(paramDto);
-      expect(emissionsGrouped).toBeGreaterThan(99.3);
+      expect(emissionsGrouped[1].emissionCo2InKg).toBe(200);
+    }, 1000000);
+
+    it('getCO2EmissionKgPerDateRangeAggregatedWeek2"', async () => {
+      const paramDto = new GetCO2EmissionAggregatedPerDateRangeDto(
+        "ecoincome", DatePeriodUnit.Week, TransportationMode.Car);
+      const emissionsGrouped = await controller.getCO2EmissionKgPerDateRangeAggregated(paramDto);
+      expect(emissionsGrouped.length).toBe(20);
+    }, 1000000);
+
+    it('getCO2EmissionKgPerDateRangeAggregatedMonth"', async () => {
+      const paramDto = new GetCO2EmissionAggregatedPerDateRangeDto(
+        "ecoincome", DatePeriodUnit.Month, TransportationMode.Car);
+      const emissionsGrouped = await controller.getCO2EmissionKgPerDateRangeAggregated(paramDto);
+      expect(emissionsGrouped[1].emissionCo2InKg).toBe(900);
+    }, 1000000);
+
+    it('getCO2EmissionKgPerDateRangeAggregatedMonth"', async () => {
+      const paramDto = new GetCO2EmissionAggregatedPerDateRangeDto(
+        "ecoincome", DatePeriodUnit.Month, TransportationMode.Car);
+      const emissionsGrouped = await controller.getCO2EmissionKgPerDateRangeAggregated(paramDto);
+      expect(emissionsGrouped.length).toBe(5);
     }, 1000000);
 
   });

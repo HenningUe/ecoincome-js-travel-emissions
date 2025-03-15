@@ -1,6 +1,6 @@
 
 import { TransportationMode } from '@app/travel-emission-calc';
-import { CompanyEntity, TravelRecordEntity } from '../../entities/travel-emission.entity';
+import { CompanyEntity, TravelRecordEntity } from '../../database/entities/travel-emission.entity';
 import { Repository } from 'typeorm';
 
 
