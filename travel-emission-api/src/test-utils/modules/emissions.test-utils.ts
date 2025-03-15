@@ -137,28 +137,25 @@ class TestModuleBuilderSqlLiteInMem extends SpecificTestModuleBuilderBase {
         if (!repositoryCompanyMock && !repositoryTravelRecordMock) {
             return
         }
-        else if (!repositoryCompanyMock ||  !repositoryCompanyMock) {
+        else if (!repositoryCompanyMock ||  !repositoryTravelRecordMock) {
             throw new Error("either not or none is provided")
         }
         else if (repositoryCompanyMock &&  repositoryTravelRecordMock) {
-            const companyEntities = MockFactory.createMockCompanies();
-            companyEntities.forEach(company => {
-                const trvlRcEntities = MockFactory.createMockTravelRecordsRaw()
-                company.travelRecords = trvlRcEntities;
+            const companyEntities = (
+                MockFactory.createMockCompanies(undefined, repositoryCompanyMock))
+            for (const company of companyEntities) {
                 // save instead of insert as it will create relations along the way
                 // insert updates only specific table
-                let company2 = repositoryCompanyMock.create(company);
-                repositoryCompanyMock.save(company2);
-                trvlRcEntities.forEach(trvlRcEntity => {
+                const trvlRcEntities = (
+                    MockFactory.createMockTravelRecords(company, repositoryTravelRecordMock));
+                company.travelRecords = trvlRcEntities;
+                await repositoryCompanyMock.save(company);
+                for (const trvlRcEntity of trvlRcEntities) {
                     // bug in typeorm? acc. to doc save should work for list of items...
-                    trvlRcEntity = repositoryTravelRecordMock.create(trvlRcEntity);
-                    repositoryTravelRecordMock.save(trvlRcEntity);
-                });
-            });
-            let results = await repositoryTravelRecordMock.find();
-            console.log(results);
-            let results2 = await repositoryCompanyMock.find();
-            console.log(results2);
+                    trvlRcEntity.company = company;
+                    await repositoryTravelRecordMock.save(trvlRcEntity);
+                }
+            }
         }
 
     }

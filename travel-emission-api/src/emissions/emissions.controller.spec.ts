@@ -62,8 +62,8 @@ describe('EmissionsController', () => {
     it('getCO2EmissionKgPerDateRangeAggregated"', async () => {
       const paramDto = new GetCO2EmissionAggregatedPerDateRangeDto(
         "ecoincome", DatePeriodUnit.Week, TransportationMode.Car);
-      const emission = await controller.getCO2EmissionKgPerDateRangeAggregated(paramDto);
-      expect(emission).toBeGreaterThan(99.3);
+      const emissionsGrouped = await controller.getCO2EmissionKgPerDateRangeAggregated(paramDto);
+      expect(emissionsGrouped).toBeGreaterThan(99.3);
     }, 1000000);
 
   });

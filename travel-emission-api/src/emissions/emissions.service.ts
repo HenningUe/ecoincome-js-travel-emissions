@@ -1,4 +1,4 @@
-import { startOfWeek} from "date-fns";
+import { format, startOfWeek} from "date-fns";
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Between, Repository } from 'typeorm';
@@ -100,24 +100,6 @@ class EmissionQueryHandler {
         relations: ["company"],
         order: { travelDate: "ASC" },
       }); 
-      results = await this.travelRecordRepository.find({
-        //where: whereCondition,
-        relations: ["company"],
-        order: { travelDate: "ASC" },
-      }); 
-      
-      results = await this.travelRecordRepository.createQueryBuilder()
-        .relation(TravelRecordEntity, "company")
-        .of(company) // you can use just post id as well
-        .loadMany()
-      
-      results = await this.travelRecordRepository.createQueryBuilder("travelRecord")
-        .innerJoinAndSelect("travelRecord.company", "company")
-        //.where('company.name = :companyName', { companyName: paramDto.company })
-        //.select()
-        //.loadAllRelationIds()
-        //.where("company.id = :companyId", {companyId: company.id})
-        .getMany()
     }
     else if (this.aggregateStrategy == "SQL") {
       //Note: groupby in SQL is faster than groupby in TS.
@@ -127,7 +109,7 @@ class EmissionQueryHandler {
         this.travelRecordRepository.createQueryBuilder('travelRecord')           
         .addSelect("DATEPART (week, travelDate) AS GroupByNumber" )
         .leftJoinAndSelect("travelRecord.company", "company")
-        .where(whereCondition)        
+        .where(whereCondition) 
         .groupBy("GroupByNumber")
         .orderBy('travelDate', 'DESC')         
         .getRawMany()
@@ -140,9 +122,10 @@ class EmissionQueryHandler {
   private async groupAndConvertQueryResult(
     datePeriodUnit: DatePeriodUnit | undefined,
     results: any[]): Promise<GetEmissionCO2PerDateRangeAggregatedResponseDto[]> {
-    let groupedResults = new Map<Date, GetEmissionCO2PerDateRangeAggregatedResponseDto>()
+    let groupedResults = new Map<string, GetEmissionCO2PerDateRangeAggregatedResponseDto>()
     let getPeriodStart;
     if (datePeriodUnit == DatePeriodUnit.Week) {
+      // weekStartsOn: 1 = Monday
       getPeriodStart = (date: Date) => startOfWeek(date, { weekStartsOn: 1 });
     }
     else if (datePeriodUnit == DatePeriodUnit.Month) {
@@ -161,11 +144,12 @@ class EmissionQueryHandler {
       if (i > 0) {
         periodStartDate = getPeriodStart(item.travelDate);
       }
-      if (!groupedResults.has(periodStartDate)) {
-        groupedResults.set(periodStartDate,
+      let periodStartDateString = format(periodStartDate, 'yyyy-MM-dd')
+      if (!groupedResults.has(periodStartDateString)) {
+        groupedResults.set(periodStartDateString,
           new GetEmissionCO2PerDateRangeAggregatedResponseDto(periodStartDate, 0));
       }
-      const group = groupedResults.get(periodStartDate);
+      const group = groupedResults.get(periodStartDateString);
       if (group) {
         group.emissionCo2InKg += item.emissionCO2;
       }

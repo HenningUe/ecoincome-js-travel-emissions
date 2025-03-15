@@ -69,7 +69,7 @@ export class EmissionsController {
         const result = (
             await this.emissionsService.getEmissionCO2InKgAggregatedPerDateRange(
                 paramDto2, datePeriodUnit));
-        return [] //result;
+        return result;
     }
 }
 

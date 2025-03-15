@@ -1,6 +1,7 @@
 
 import { TransportationMode } from '@app/travel-emission-calc';
 import { CompanyEntity, TravelRecordEntity } from '../../entities/travel-emission.entity';
+import { Repository } from 'typeorm';
 
 
 
@@ -52,32 +53,20 @@ export class MockFactory {
     return factory
   }
 
-  public static createMockTravelRecordsRaw(
-    numberWeeks: number = 20,
-  ): any[] {
-    let travelRcs: any[] = [];
-    for (let dayDate of MockFactory.dayIterator(numberWeeks)) {
-      let travelRc = {
-        company: undefined,
-        distanceKm: 100,
-        emissionCO2: 100,
-        transportationMode: TransportationMode.Car,
-        travelDate: dayDate,
-        origin: "origin",
-        destination: "destination"
-      };
-      travelRcs.push(travelRc);
-    }
-    return travelRcs
-  }
-
   public static createMockTravelRecords(
     companyToAttach?: CompanyEntity,
+    repositoryTravelRecordMock?: Repository<TravelRecordEntity>,
     numberWeeks: number = 20,
   ): TravelRecordEntity[] {
     let travelRcs: TravelRecordEntity[] = [];
     for (let dayDate of MockFactory.dayIterator(numberWeeks)) {
-      let travelRc = new TravelRecordEntity();
+      let travelRc: TravelRecordEntity
+      if (repositoryTravelRecordMock) {
+        travelRc = repositoryTravelRecordMock.create();
+      }
+      else {
+        travelRc = new TravelRecordEntity();
+      }
       if (companyToAttach) {
         travelRc.company = companyToAttach;      
       }
@@ -101,9 +90,18 @@ export class MockFactory {
 
   public static createMockCompanies(
     travelRecordsToAttach?: TravelRecordEntity[],
+    repositoryCompanyMock?: Repository<CompanyEntity>,
   ): CompanyEntity[] {
-    let company1 = new CompanyEntity("ecoincome");
-    let company2 = new CompanyEntity("dimond");
+    let newFunc = (name) => new CompanyEntity(name)
+    if (repositoryCompanyMock) {
+      newFunc = (name) => {
+        let company = repositoryCompanyMock.create()
+        company.name = name
+        return company
+      }
+    }
+    let company1 = newFunc("ecoincome");
+    let company2 = newFunc("dimond");
     if (travelRecordsToAttach) {
       company1.travelRecords = travelRecordsToAttach;
       company2.travelRecords = travelRecordsToAttach;
