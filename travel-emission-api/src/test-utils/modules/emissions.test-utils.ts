@@ -7,6 +7,8 @@ import { EmissionsController } from '../../modules/emissions/emissions.controlle
 import { EmissionsService } from '../../modules/emissions/emissions.service';
 import { ModuleMetadata } from '@nestjs/common';
 import { Repository } from 'typeorm';
+import { TravelRecordsService } from '../../modules/emissions/travel-records/travel-records.service';
+import { TravelRecordsController } from 'src/modules/emissions/travel-records/travel-records.controller';
 
 
 export enum RepositoryMockStrategy {
@@ -22,10 +24,11 @@ class CreateTestModuleBuilderParams {
 
 
 export function createTestModuleBuilder(
-      params: CreateTestModuleBuilderParams
+      params: CreateTestModuleBuilderParams,
+      moduleToUse: string
   ): TestingModuleBuilder { 
       let moduleBuilder = createSpecificTestModuleBuilder(params)
-      return moduleBuilder.create()
+      return moduleBuilder.create(moduleToUse)
   }
 
 
@@ -46,7 +49,7 @@ abstract class SpecificTestModuleBuilderBase {
         this.addController = addController
     }
 
-    public abstract create(): TestingModuleBuilder;
+    public abstract create(moduleToUse: string): TestingModuleBuilder;
 
     public async addMockData(
         repositoryCompanyMock?: Repository<CompanyEntity>,
@@ -76,17 +79,28 @@ let repositoryMockStrategy = (
 
 class TestModuleBuilderJestMock extends SpecificTestModuleBuilderBase {
 
-    public create(): TestingModuleBuilder {
+    public create(moduleToUse: string): TestingModuleBuilder {
+        let serviceToUse;
+        let controllerToUse;
+        if (moduleToUse == "emissions") {
+            serviceToUse = EmissionsService
+            controllerToUse = EmissionsController
+        }
+        else if (moduleToUse == "travel-records") {
+            serviceToUse = TravelRecordsService
+            controllerToUse = TravelRecordsController
+        }
+
         let moduleMetaData: ModuleMetadata = {
             imports: [],
             providers: [
-                EmissionsService,
+                serviceToUse,
                 { provide: getRepositoryToken(CompanyEntity), useExisting: false}, 
                 { provide: getRepositoryToken(TravelRecordEntity), useExisting: false},
             ],
         }
         if (this.addController) {
-            moduleMetaData.controllers = [EmissionsController]}
+            moduleMetaData.controllers = [controllerToUse]}
         let moduleBuilder: TestingModuleBuilder = Test.createTestingModule(moduleMetaData)
         moduleBuilder = this.addMockProviders(moduleBuilder);
         return moduleBuilder
@@ -112,7 +126,20 @@ class TestModuleBuilderJestMock extends SpecificTestModuleBuilderBase {
 
 class TestModuleBuilderSqlLiteInMem extends SpecificTestModuleBuilderBase {
 
-    public create(): TestingModuleBuilder {
+    public create(moduleToUse: string): TestingModuleBuilder {
+        let serviceToUse;
+        let controllerToUse;
+        if (moduleToUse == "emissions") {
+            serviceToUse = EmissionsService
+            controllerToUse = EmissionsController
+        }
+        else if (moduleToUse == "travel-records") {
+            serviceToUse = TravelRecordsService
+            controllerToUse = TravelRecordsController
+        }
+        else {
+            throw Error("not implemented")
+        }
         let imports = [
             TypeOrmModule.forRoot(databaseCfgForSqlLiteInMemory.getTypeOrmConfig()),
             TypeOrmModule.forFeature([CompanyEntity, TravelRecordEntity]),
@@ -120,10 +147,10 @@ class TestModuleBuilderSqlLiteInMem extends SpecificTestModuleBuilderBase {
           ]
         let moduleMetaData: ModuleMetadata = {
             imports: imports,
-            providers: [EmissionsService,],
+            providers: [serviceToUse,],
         }
         if (this.addController) {
-            moduleMetaData.controllers = [EmissionsController]
+            moduleMetaData.controllers = [controllerToUse]
         }
         let moduleBuilder: TestingModuleBuilder = Test.createTestingModule(moduleMetaData)
         return moduleBuilder

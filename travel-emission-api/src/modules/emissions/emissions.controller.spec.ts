@@ -34,7 +34,8 @@ describe('EmissionsController', () => {
       addController: true,
   }
   beforeEach(async () => {
-    const moduleBuilder: TestingModuleBuilder = createTestModuleBuilder(moduleBuildCfg);
+    const moduleBuilder: TestingModuleBuilder = (
+      createTestModuleBuilder(moduleBuildCfg, "emissions"));
     const module: TestingModule = await moduleBuilder.compile();
     service = module.get<EmissionsService>(EmissionsService);
     controller = module.get<EmissionsController>(EmissionsController);

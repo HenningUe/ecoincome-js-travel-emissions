@@ -1,38 +1,40 @@
-import { Test, TestingModule } from '@nestjs/testing';
-import { TypeOrmModule } from '@nestjs/typeorm';
+import { TestingModule, TestingModuleBuilder } from '@nestjs/testing';
+import { getRepositoryToken } from '@nestjs/typeorm';
 
 import {
   TransportationMode,
   AddTravelRecordByOriginAndDestDto,
 } from '../../dto/travel-emission.dto';
-import { databaseCfgForPostgres } from '../../../database/configs/postgres-database.config';
-import { CompanyEntity, TravelRecordEntity } from '../../../database/entities/travel-emission.entity';
+import { 
+  CompanyEntity, TravelRecordEntity 
+} from '../../../database/entities/travel-emission.entity';
 import { TravelRecordsController } from './travel-records.controller';
 import { TravelRecordsService} from './travel-records.service';
+import { Repository } from 'typeorm';
+import { 
+  addMockData, createTestModuleBuilder, RepositoryMockStrategy 
+} from '../../../test-utils/modules/emissions.test-utils';
 
 
 describe('TravelRecordsController', () => {
   let controller: TravelRecordsController;
-
+  let service: TravelRecordsService;
+  let repositoryCompanyMock: Repository<CompanyEntity>;
+  let repositoryTravelRecordMock: Repository<TravelRecordEntity>;
+  const moduleBuildCfg = {
+      repositoryMockStrategy: RepositoryMockStrategy.sqllitememory,
+      addController: true,
+  }
   beforeEach(async () => {
-    const module: TestingModule = await Test.createTestingModule({
-      controllers: [TravelRecordsController],
-    }).compile();
-
+    const moduleBuilder: TestingModuleBuilder = (
+      createTestModuleBuilder(moduleBuildCfg, "travel-records"));
+    const module: TestingModule = await moduleBuilder.compile();
+    service = module.get<TravelRecordsService>(TravelRecordsService);
     controller = module.get<TravelRecordsController>(TravelRecordsController);
-  });
-
-  beforeEach(async () => {
-    const app: TestingModule = await Test.createTestingModule({
-      imports: [
-        TypeOrmModule.forRoot(databaseCfgForPostgres.getTypeOrmConfig()),
-        TypeOrmModule.forFeature([CompanyEntity, TravelRecordEntity]),
-      ],
-      controllers: [TravelRecordsController],
-      providers: [TravelRecordsService],
-    }).compile();
-
-    controller = app.get<TravelRecordsController>(TravelRecordsController);
+    // @ts-ignore
+    repositoryCompanyMock = module.get(getRepositoryToken(CompanyEntity));
+    repositoryTravelRecordMock = module.get(getRepositoryToken(TravelRecordEntity));
+    await addMockData(moduleBuildCfg, repositoryCompanyMock, repositoryTravelRecordMock);
   });
 
   describe('travel-emission', () => {
