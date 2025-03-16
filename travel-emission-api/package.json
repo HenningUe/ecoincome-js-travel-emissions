@@ -82,12 +82,21 @@
       "ts"
     ],
     "rootDir": ".",
-    "testRegex": ".*\\.spec\\.ts$",
+    "testRegex": ".*[\\.-]spec\\.ts$",
     "transform": {
       "^.+\\.(t|j)s$": "ts-jest"
     },
     "collectCoverageFrom": [
       "**/*.(t|j)s"
+    ],
+    "coveragePathIgnorePatterns": [
+      "\\.dto\\.ts",
+      "\\.module\\.ts",
+      "[\\\/]src[\\\/]main\\.ts",
+      "[\\\/]app\\.service\\.ts",
+      "[\\\/]app\\.controller\\.ts",
+      "[\\\/]database[\\\/]configs[\\\/]",
+      "[\\\/]test-utils[\\\/]"
     ],
     "coverageDirectory": "./coverage",
     "testEnvironment": "node",

@@ -4,7 +4,7 @@ import {getEmissionCO2KgTotalPerPerson} from './index';
 describe('TravelEmissionCalcService', () => {
 
   it('should be getCO2EmissionKgTotalPerPerson', async () => {
-    const emission = await getEmissionCO2KgTotalPerPerson("Car", "Munich", "Berlin");
-    expect(emission).toBe(99.3);
+    const returnData = await getEmissionCO2KgTotalPerPerson("Car", "Munich", "Berlin");
+    expect(returnData.emissionCO2).toBe(99.3);
   });
 });

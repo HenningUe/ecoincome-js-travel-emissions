@@ -32,8 +32,9 @@ export class TravelRecordEntity extends BaseEntity {
   emissionCO2: number;
 
   @Column({
-    //type: 'enum',
-    enum: TransportationMode
+    type: 'simple-enum',
+    enum: TransportationMode,
+    enumName: "user_role", // Used for PostgreSQL
   })
   transportationMode: TransportationMode;
 

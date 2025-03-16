@@ -1,7 +1,7 @@
 import { Controller,  Post, Body,  ValidationPipe } from '@nestjs/common';
 import {
   AddTravelRecordByOriginAndDestDto,
-  AddTravelRecordByDistanceDto} from '../../dto/travel-emission.dto';
+  AddTravelRecordByDistanceDto} from '../../../dtos/travel-emission.dto';
   import { TravelRecordsService } from './travel-records.service';
 import {  ApiCreatedResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 

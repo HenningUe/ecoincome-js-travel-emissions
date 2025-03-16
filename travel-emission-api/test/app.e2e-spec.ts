@@ -22,18 +22,23 @@ describe('AppController (e2e)', () => {
     await app.close(); //
   });
 
-  it('/ (GET)', () => {
+  it('emissions/per-person-in-kg-co2/ (GET)', async () => {
     return request(app.getHttpServer())
-      .get('/getCO2EmissionKgTotalPerPerson?transportationMode=Car&origin=munich&destination=paris')
+      .get('/emissions/per-person-in-kg-co2?transportationMode=CarWithRideSharing&origin=hamburg&destination=madrid')
+      //.get('api/v1/emissions/per-person-in-kg-co2?transportationMode=CarWithRideSharing&origin=hamburg&destination=madrid')
       .expect(200)
-      .expect("143.2");
+      .expect("147.5");
+  });
+  it('emissions/travel-records/by-distance/ (POST)', async () => {
+    return request(app.getHttpServer())
+      .post('/emissions/travel-records/by-distance')
+      .send({
+        company: "newc",
+        transportationMode: "Car",
+        travelDate: "2025-03-16T16:10:19.075Z",
+        distance: 100
+      })
+      .expect(201)
   });
 
-  
-  // it('/ (GET)', () => {
-  //   return request(app.getHttpServer())
-  //     .get('/addTravelRecordAsGet?company=BMW&transportationMode=Car&origin=munich&destination=paris')
-  //     .expect(200)
-  //     .expect("OK");
-  // });
 });

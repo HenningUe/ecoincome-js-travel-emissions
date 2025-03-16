@@ -6,7 +6,7 @@ import {
   TransportationMode} from '@app/travel-emission-calc';
 import {
   AddTravelRecordByOriginAndDestDto, AddTravelRecordByDistanceDto,
-} from '../../dto/travel-emission.dto';
+} from '../../../dtos/travel-emission.dto';
 import { CompanyEntity, TravelRecordEntity } from '../../../database/entities/travel-emission.entity';
 
 
@@ -24,7 +24,7 @@ export class TravelRecordsService {
     console.debug("paramDto: ", paramDto);
     const rtnData = await getEmissionCO2KgTotalPerPerson(
       paramDto.transportationMode, paramDto.origin, paramDto.destination);
-    const distanceKm: number = rtnData.get('distanceKm') ?? 0;
+    const distanceKm: number = rtnData.distanceKm ?? 0;
 
     return this.addTravelRecord(
       paramDto.company, paramDto.transportationMode,

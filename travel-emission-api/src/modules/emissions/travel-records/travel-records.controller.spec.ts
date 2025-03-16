@@ -13,7 +13,7 @@ import {
   TransportationMode,
   AddTravelRecordByOriginAndDestDto,
   AddTravelRecordByDistanceDto,
-} from '../../dto/travel-emission.dto';
+} from '../../../dtos/travel-emission.dto';
 import { TravelRecordsController } from './travel-records.controller';
 import { TravelRecordsService} from './travel-records.service';
 

@@ -15,7 +15,7 @@ import {
   GetEmissionCO2PerDateRangeDto,
   GetCO2EmissionAggregatedPerDateRangeDto,
   DatePeriodUnit,
-} from '../dto/travel-emission.dto';
+} from '../../dtos/travel-emission.dto';
 import { EmissionsController } from './emissions.controller';
 import { EmissionsService} from './emissions.service';
 

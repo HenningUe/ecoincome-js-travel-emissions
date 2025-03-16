@@ -4,7 +4,7 @@ import {  ApiNotFoundResponse, ApiOperation, ApiTags, ApiOkResponse } from '@nes
 import { EmissionsService } from './emissions.service';
 import { GetCO2EmissionAggregatedPerDateRangeDto, GetEmissionCO2PerDateRangeAggregatedResponseDto,
     GetEmissionCO2PerDateRangeDto, GetCO2EmissionSinglePersonDto,
- } from '../dto/travel-emission.dto';
+ } from '../../dtos/travel-emission.dto';
 
 
 @ApiTags('emissions')

@@ -8,7 +8,7 @@ import {
   GetCO2EmissionSinglePersonDto, GetEmissionCO2PerDateRangeDto,
   DatePeriodUnit,
   GetEmissionCO2PerDateRangeAggregatedResponseDto,
-} from '../dto/travel-emission.dto';
+} from '../../dtos/travel-emission.dto';
 import {
   CompanyEntity, TravelRecordEntity 
  } from '../../database/entities/travel-emission.entity';
@@ -27,7 +27,7 @@ export class EmissionsService {
     console.log("paramDto: ", paramDto);
     const rtnData = await getEmissionCO2KgTotalPerPerson(
       paramDto.transportationMode, paramDto.origin, paramDto.destination);
-    return rtnData.get('emissionCO2') ?? 0;
+    return rtnData.emissionCO2 ?? 0;
   }
 
   async getEmissionCO2KgPerDateRange(
