@@ -8,7 +8,7 @@ import { EmissionsService } from '../../modules/emissions/emissions.service';
 import { ModuleMetadata } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { TravelRecordsService } from '../../modules/emissions/travel-records/travel-records.service';
-import { TravelRecordsController } from 'src/modules/emissions/travel-records/travel-records.controller';
+import { TravelRecordsController } from '../../modules/emissions/travel-records/travel-records.controller';
 
 
 export enum RepositoryMockStrategy {
@@ -20,15 +20,15 @@ export enum RepositoryMockStrategy {
 class CreateTestModuleBuilderParams {
     addController?: boolean;
     repositoryMockStrategy?: RepositoryMockStrategy;
+    moduleToUse: string
   }
 
 
 export function createTestModuleBuilder(
-      params: CreateTestModuleBuilderParams,
-      moduleToUse: string
+      params: CreateTestModuleBuilderParams
   ): TestingModuleBuilder { 
       let moduleBuilder = createSpecificTestModuleBuilder(params)
-      return moduleBuilder.create(moduleToUse)
+      return moduleBuilder.create()
   }
 
 
@@ -44,12 +44,14 @@ export function createTestModuleBuilder(
 
 abstract class SpecificTestModuleBuilderBase {
     addController: boolean = false;
+    moduleToUse: string
 
-    constructor(addController: boolean) {
+    constructor(addController: boolean, moduleToUse: string) {
         this.addController = addController
+        this.moduleToUse = moduleToUse
     }
 
-    public abstract create(moduleToUse: string): TestingModuleBuilder;
+    public abstract create(): TestingModuleBuilder;
 
     public async addMockData(
         repositoryCompanyMock?: Repository<CompanyEntity>,
@@ -66,10 +68,10 @@ let addController = params.addController || false
 let repositoryMockStrategy = (
     params.repositoryMockStrategy || RepositoryMockStrategy.sqllitememory)
   if (repositoryMockStrategy === RepositoryMockStrategy.sqllitememory) {
-      moduleBuilder = new TestModuleBuilderSqlLiteInMem(addController);
+      moduleBuilder = new TestModuleBuilderSqlLiteInMem(addController, params.moduleToUse);
   }
   else if (repositoryMockStrategy === RepositoryMockStrategy.jestmock) {
-      moduleBuilder = new TestModuleBuilderJestMock(addController);
+      moduleBuilder = new TestModuleBuilderJestMock(addController, params.moduleToUse);
   }
   else {
       throw new Error(`Invalid repositoryMockStrategy: ${params.repositoryMockStrategy}`)
@@ -79,14 +81,14 @@ let repositoryMockStrategy = (
 
 class TestModuleBuilderJestMock extends SpecificTestModuleBuilderBase {
 
-    public create(moduleToUse: string): TestingModuleBuilder {
+    public create(): TestingModuleBuilder {
         let serviceToUse;
         let controllerToUse;
-        if (moduleToUse == "emissions") {
+        if (this.moduleToUse == "emissions") {
             serviceToUse = EmissionsService
             controllerToUse = EmissionsController
         }
-        else if (moduleToUse == "travel-records") {
+        else if (this.moduleToUse == "travel-records") {
             serviceToUse = TravelRecordsService
             controllerToUse = TravelRecordsController
         }
@@ -126,14 +128,14 @@ class TestModuleBuilderJestMock extends SpecificTestModuleBuilderBase {
 
 class TestModuleBuilderSqlLiteInMem extends SpecificTestModuleBuilderBase {
 
-    public create(moduleToUse: string): TestingModuleBuilder {
+    public create(): TestingModuleBuilder {
         let serviceToUse;
         let controllerToUse;
-        if (moduleToUse == "emissions") {
+        if (this.moduleToUse == "emissions") {
             serviceToUse = EmissionsService
             controllerToUse = EmissionsController
         }
-        else if (moduleToUse == "travel-records") {
+        else if (this.moduleToUse == "travel-records") {
             serviceToUse = TravelRecordsService
             controllerToUse = TravelRecordsController
         }

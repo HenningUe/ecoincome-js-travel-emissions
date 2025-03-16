@@ -24,7 +24,7 @@ export class TravelRecordsController {
       @Body(new ValidationPipe({ transform: true })) paramDto: AddTravelRecordByOriginAndDestDto,
     ) {
       console.log("paramDto: ", paramDto);
-      this.travelRecordsService.addTravelRecordByOriginAndDst(paramDto);
+      await this.travelRecordsService.addTravelRecordByOriginAndDst(paramDto);
     }
   
     @Post('by-distance')
@@ -39,7 +39,7 @@ export class TravelRecordsController {
       @Body(new ValidationPipe({ transform: true })) paramDto: AddTravelRecordByDistanceDto,
     ) {
       console.log("paramDto: ", paramDto);
-      this.travelRecordsService.addTravelRecordByDistance(paramDto);
+      await this.travelRecordsService.addTravelRecordByDistance(paramDto);
     }
 
 }

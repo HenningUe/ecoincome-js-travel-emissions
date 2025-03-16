@@ -103,7 +103,7 @@ class EmissionQueryHandler {
     }
     else if (this.aggregateStrategy == "SQL") {
       //Note: groupby in SQL is faster than groupby in TS.
-      //Major drawback: more difficult to debug and mock.
+      //Major drawback: more difficult to debug.
       //Thus: open als fallback in case performance is an issue
       results = await (
         this.travelRecordRepository.createQueryBuilder('travelRecord')           

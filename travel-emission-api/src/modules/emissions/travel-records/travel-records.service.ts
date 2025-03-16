@@ -50,29 +50,29 @@ export class TravelRecordsService {
     const emissionCo2Kg = await getEmissionCO2KgPerDistanceInKm(transportationMode, distanceKm);
 
     await this.companyRepository.manager.transaction(async manager => {
-      let companyEntity: CompanyEntity | null = await this.companyRepository.findOne(
+      let companyEntity: CompanyEntity | null = await manager.findOne(CompanyEntity,
         { where: { name: company_name } });
       if (!companyEntity) {
         companyEntity = this.companyRepository.create({ name: company_name });
-        await this.companyRepository.save(companyEntity);
       }
-  
-      await this.travelRecordRepository.manager.transaction(async manager => {
-        let travelRecordEntity = this.travelRecordRepository.create({
-          company: companyEntity,
-          distanceKm: distanceKm,
-          transportationMode: transportationMode,
-          travelDate: travelDate,
-          origin: origin,
-          destination: destination,
-          emissionCO2: emissionCo2Kg,
-        });
-        await this.travelRecordRepository.save(travelRecordEntity);
-        if (!companyEntity.travelRecords) {
-          companyEntity.travelRecords = [];
-        }
-        companyEntity.travelRecords.push(travelRecordEntity);
+
+      let travelRecordEntity = this.travelRecordRepository.create({
+        company: companyEntity,
+        distanceKm: distanceKm,
+        transportationMode: transportationMode,
+        travelDate: travelDate,
+        origin: origin,
+        destination: destination,
+        emissionCO2: emissionCo2Kg,
       });
+      //await this.travelRecordRepository.save(travelRecordEntity);
+      if (!companyEntity.travelRecords) {
+        companyEntity.travelRecords = [];
+      }
+      travelRecordEntity.company = companyEntity
+      companyEntity.travelRecords.push(travelRecordEntity);
+      await manager.save(companyEntity);
+      await manager.save(travelRecordEntity);
   
     });
   }

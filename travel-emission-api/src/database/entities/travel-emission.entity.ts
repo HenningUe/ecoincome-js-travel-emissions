@@ -40,11 +40,11 @@ export class TravelRecordEntity extends BaseEntity {
   @Column({ default: () => 'CURRENT_TIMESTAMP' })
   travelDate: Date;
 
-  @Column({ type: 'varchar', length: 300 })
+  @Column({ type: 'varchar', length: 300, nullable: true})
   origin: string;
 
-  @Column({ type: 'varchar', length: 300 })
-  destination: string;
+  @Column({ type: 'varchar', length: 300, nullable: true})
+  destination!: string;
 }
 
 

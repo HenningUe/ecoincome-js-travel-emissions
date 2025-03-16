@@ -1,4 +1,3 @@
-
 import { TestingModule, TestingModuleBuilder } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
@@ -7,6 +6,9 @@ import {
   addMockData,
   createTestModuleBuilder, RepositoryMockStrategy 
 } from '../../test-utils/modules/emissions.test-utils';
+import { 
+  CompanyEntity, TravelRecordEntity
+} from '../../database/entities/travel-emission.entity';
 
 import {
   GetCO2EmissionSinglePersonDto, TransportationMode,
@@ -14,9 +16,6 @@ import {
   GetCO2EmissionAggregatedPerDateRangeDto,
   DatePeriodUnit,
 } from '../dto/travel-emission.dto';
-import { 
-  CompanyEntity, TravelRecordEntity
-} from '../../database/entities/travel-emission.entity';
 import { EmissionsController } from './emissions.controller';
 import { EmissionsService} from './emissions.service';
 
@@ -31,11 +30,12 @@ describe('EmissionsController', () => {
   let repositoryTravelRecordMock: Repository<TravelRecordEntity>;
   const moduleBuildCfg = {
       repositoryMockStrategy: RepositoryMockStrategy.sqllitememory,
-      addController: true,
+      addController: true,      
+      moduleToUse: "emissions",
   }
   beforeEach(async () => {
     const moduleBuilder: TestingModuleBuilder = (
-      createTestModuleBuilder(moduleBuildCfg, "emissions"));
+      createTestModuleBuilder(moduleBuildCfg));
     const module: TestingModule = await moduleBuilder.compile();
     service = module.get<EmissionsService>(EmissionsService);
     controller = module.get<EmissionsController>(EmissionsController);
