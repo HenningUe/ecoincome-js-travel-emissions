@@ -25,7 +25,6 @@ describe('AppController (e2e)', () => {
   it('emissions/per-person-in-kg-co2/ (GET)', async () => {
     return request(app.getHttpServer())
       .get('/emissions/per-person-in-kg-co2?transportationMode=CarWithRideSharing&origin=hamburg&destination=madrid')
-      //.get('api/v1/emissions/per-person-in-kg-co2?transportationMode=CarWithRideSharing&origin=hamburg&destination=madrid')
       .expect(200)
       .expect("147.5");
   });

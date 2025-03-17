@@ -21,20 +21,22 @@ class DatabaseCfg {
     return this;
   }
 
-  public getPort() {
-    return this.getValue('POSTGRES_PORT', true);
+  public getPort(): string {
+    return "5432";
+    //return this.getValue('POSTGRES_PORT', true);
   }
-  public getHost() {
+  public getHost(): string {
     return this.getValue('POSTGRES_HOST', true);
   }
-  public getUsername() {
+  public getUsername(): string {
     return this.getValue('POSTGRES_USER', true);
   }
-  public getPassword() {
+  public getPassword(): string {
     return this.getValue('POSTGRES_PASSWORD', true);
   }
-  public getDatabase() {
-    return this.getValue('POSTGRES_DATABASE', true);
+  public getDatabase(): string {
+    return "emissions_db"
+    //return this.getValue('POSTGRES_DATABASE', true);
   }
 
   public isProduction(): boolean  {
@@ -49,11 +51,11 @@ class DatabaseCfg {
     }
     return {
       type: 'postgres',
-      host: this.getValue('POSTGRES_HOST'),
-      port: parseInt(this.getValue('POSTGRES_PORT')),
+      host: this.getHost(),
+      port: parseInt(this.getPort()),
       username: this.getValue('POSTGRES_USER'),
       password: this.getValue('POSTGRES_PASSWORD'),
-      database: this.getValue('POSTGRES_DATABASE'),
+      database: this.getDatabase(),
       entities: entitiesToApply,
       synchronize: true,
       autoLoadEntities: true,
@@ -69,10 +71,10 @@ class DatabaseCfg {
 const databaseCfg = new DatabaseCfg(process.env)
   .ensureValues([
     'POSTGRES_HOST',
-    'POSTGRES_PORT',
+    //'POSTGRES_PORT',
     'POSTGRES_USER',
     'POSTGRES_PASSWORD',
-    'POSTGRES_DATABASE'
+    //'POSTGRES_DATABASE'
   ]);
   
 
