@@ -28,6 +28,7 @@ describe('AppController (e2e)', () => {
       .expect(200)
       .expect("147.5");
   });
+
   it('emissions/travel-records/by-distance/ (POST)', async () => {
     return request(app.getHttpServer())
       .post('/emissions/travel-records/by-distance')
