@@ -26,7 +26,9 @@ async function bootstrap() {
 
   const config = new DocumentBuilder()
   .setTitle('Travel CO2 Emission Budget API')
-  .setDescription('Store and manage CO2 emissions caused by travels')
+  .setDescription(`Store and manage CO2 emissions caused by (business) travels.
+    This is working as demonstration only. Database is presumably empty.
+    To test is the emissions-queries add travel records first.`)
   .setVersion('1.0')
   .addTag('travel-emissions-co2')
   .build();

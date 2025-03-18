@@ -52,7 +52,11 @@ export class EmissionsController {
         summary: `Calculates CO2 emissions for trips from the origin to the destination
         for a given date range, company and transportation mode.
         CO2 emissions are aggregated (grouped) based on the datePeriodUnit,
-        i.e. split into weeks, months or years.` })
+        i.e. split into weeks, months or years.
+        IMPORTANT: Only records inside the given date-range are taken into account.
+        I.e. you must ensure that your date-range start and end dates 
+        match the date-period. E.g. for month-periods the most reasonable start-date 
+        is the first for respective month.` })
     @ApiOkResponse({
         description: 'CO2 emission in kg per person grouped by datePeriodUnit', 
         schema: { type: 'GetCO2EmissionAggregatedPerDateRangeResponseDto[]',}
