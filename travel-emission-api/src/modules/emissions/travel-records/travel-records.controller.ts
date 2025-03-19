@@ -43,8 +43,8 @@ export class TravelRecordsController {
   
     @Get('by-origin-and-destination-as-get')
     @ApiOperation({
-      summary: `For debug only: Facilitates adding travel records. See API-description "by-origin-and-destination"
-      for additional information.` })  
+      summary: `For debug only: Facilitates adding travel records via OpenAPI generated 
+      Web-interface. For additional information. See API-description "by-origin-and-destination"` })  
     @ApiOkResponse({
       description: 'Travel record added successfully', 
     })
@@ -57,8 +57,8 @@ export class TravelRecordsController {
   
     @Post('by-distance-as-get')
     @ApiOperation({
-      summary: `For debug only: Facilitates adding travel records. See API-description "by-distance"
-      for additional information.` })
+      summary: `For debug only: Facilitates adding travel records via OpenAPI generated 
+      Web-interface. For additional information. See API-description "by-origin-and-destination"` })
       @ApiOkResponse({
         description: 'Travel record added successfully', 
       })

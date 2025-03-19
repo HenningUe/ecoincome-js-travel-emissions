@@ -1,6 +1,6 @@
 
 import { Controller, Get, Query, ValidationPipe } from '@nestjs/common';
-import {  ApiNotFoundResponse, ApiOperation, ApiTags, ApiOkResponse } from '@nestjs/swagger';
+import {  ApiNotFoundResponse, ApiOperation, ApiTags, ApiOkResponse, ApiNoContentResponse } from '@nestjs/swagger';
 import { EmissionsService } from './emissions.service';
 import { GetCO2EmissionAggregatedPerDateRangeDto, GetEmissionCO2PerDateRangeAggregatedResponseDto,
     GetEmissionCO2PerDateRangeDto, GetCO2EmissionSinglePersonDto,
@@ -40,6 +40,9 @@ export class EmissionsController {
     @ApiNotFoundResponse({
         description: 'NotFoundException. Company not found',
     })
+    @ApiNoContentResponse({
+        description: 'NotFoundException. No data found matching given parameters',
+    })
     async getCO2EmissionKgPerDateRange(
         @Query(new ValidationPipe({ transform: true })) paramDto: GetEmissionCO2PerDateRangeDto,
     ): Promise<number> {
@@ -63,6 +66,9 @@ export class EmissionsController {
     })
     @ApiNotFoundResponse({
         description: 'NotFoundException. Company not found',
+    })
+    @ApiNoContentResponse({
+        description: 'NotFoundException. No data found matching given parameters',
     })
     async getCO2EmissionKgPerDateRangeAggregated(
         @Query(new ValidationPipe({ transform: true })

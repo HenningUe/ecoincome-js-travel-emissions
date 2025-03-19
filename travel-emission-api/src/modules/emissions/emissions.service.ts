@@ -34,8 +34,9 @@ export class EmissionsService {
     paramDto: GetEmissionCO2PerDateRangeDto,
   ): Promise<number> {
     console.log("paramDto: ", paramDto);
-    const emmissions = await this.getEmissionCO2InKgAggregatedPerDateRange(paramDto);
-    const emissionCO2Kg = emmissions[0].emissionCo2InKg;
+    paramDto
+    const emissions = await this.getEmissionCO2InKgAggregatedPerDateRange(paramDto);
+    const emissionCO2Kg = emissions[0].emissionCo2InKg;
     return emissionCO2Kg;
   }
 
@@ -48,11 +49,20 @@ export class EmissionsService {
     let company: CompanyEntity | null = await this.companyRepository.findOne(
       { where: { name: c_name } });
     if (!company) {
-      const msg: string = (`The company ${paramDto.company} does not exist` )
+      const msg: string = (`The company '${paramDto.company}' does not exist` )
       throw new HttpException(msg, HttpStatus.NOT_FOUND);
     }
     let helper = new EmissionQueryHandler(this.companyRepository, this.travelRecordRepository);
-    return await helper.getEmissionCO2InKgPerDateRangeAggregated(paramDto, datePeriodUnit);
+    const emissionsGrouped = (
+      await helper.getEmissionCO2InKgPerDateRangeAggregated(paramDto, datePeriodUnit))    
+    if (!emissionsGrouped.length) {
+      const paramStr = JSON.stringify(paramDto);
+      const msg: string = (
+        `For given parameters no emission records found. 
+        Passed parameters are: ${paramStr}` )
+      throw new HttpException(msg, HttpStatus.NO_CONTENT);
+    }
+    return emissionsGrouped;
   }
 }
 

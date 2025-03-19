@@ -56,13 +56,24 @@ describe('EmissionsController', () => {
       expect(emission).toBeCloseTo(100);
     }, 1000000);
 
-    it('getCO2EmissionKgPerDateRange"', async () => {
-      const paramDto = new GetEmissionCO2PerDateRangeDto("BMW", TransportationMode.Car);
+    it('getCO2EmissionKgPerDateRangeCompanyMissing"', async () => {
+      const paramDto = new GetEmissionCO2PerDateRangeDto("CompanyMissing", TransportationMode.Car);
       try {
         await controller.getCO2EmissionKgPerDateRange(paramDto);
         expect(true).toBe(false);
       } catch (e) {
-          expect(e.message).toBe("The company BMW does not exist");
+          expect(e.message).toBe("The company 'CompanyMissing' does not exist");
+      }
+    }, 1000000);
+
+    it('getCO2EmissionKgPerDateRangeTransportationModeMissing"', async () => {
+      const paramDto = new GetEmissionCO2PerDateRangeDto(
+        "ecoincome", TransportationMode.PlaneDomestic);
+      try {
+        await controller.getCO2EmissionKgPerDateRange(paramDto);
+        expect(true).toBe(false);
+      } catch (e) {
+          expect(e.message).toContain("no emission records found");
       }
     }, 1000000);
 
