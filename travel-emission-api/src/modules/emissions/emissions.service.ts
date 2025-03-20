@@ -143,13 +143,13 @@ class EmissionQueryHandler {
       getPeriodStart = (date: Date) => new Date(date.getFullYear(), date.getMonth(), 1);;
     }
     else if (datePeriodUnit == DatePeriodUnit.Year) {
-      getPeriodStart = (date: Date) => new Date(date.getFullYear(), 1, 1);
+      getPeriodStart = (date: Date) => new Date(date.getFullYear(), 0, 1);
     }
     else {
-      getPeriodStart = (date: Date) => results? results[0].travelDate : new Date(1, 1, 1);
+      getPeriodStart = (date: Date) => results? results[0].travelDate : new Date(1, 0, 1);
     }
 
-    let minPeriodStart: Date = new Date(1, 1, 1);
+    let minPeriodStart: Date = new Date(1, 0, 1);
     for(let i=0; i<results.length; i++){
       const item = results[i];
       let periodStartDate: Date = <Date>item.travelDate;

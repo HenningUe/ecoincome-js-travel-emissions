@@ -91,18 +91,25 @@ describe('EmissionsController', () => {
       expect(emissionsGrouped.length).toBe(20);
     }, 1000000);
 
-    it('getCO2EmissionKgPerDateRangeAggregatedMonth"', async () => {
+    it('getCO2EmissionKgPerDateRangeAggregatedMonthEmission"', async () => {
       const paramDto = new GetCO2EmissionAggregatedPerDateRangeDto(
         "ecoincome", DatePeriodUnit.Month, TransportationMode.Car);
       const emissionsGrouped = await controller.getCO2EmissionKgPerDateRangeAggregated(paramDto);
       expect(emissionsGrouped[1].emissionCo2InKg).toBe(900);
     }, 1000000);
 
-    it('getCO2EmissionKgPerDateRangeAggregatedMonth"', async () => {
+    it('getCO2EmissionKgPerDateRangeAggregatedMonthSetCount"', async () => {
       const paramDto = new GetCO2EmissionAggregatedPerDateRangeDto(
         "ecoincome", DatePeriodUnit.Month, TransportationMode.Car);
       const emissionsGrouped = await controller.getCO2EmissionKgPerDateRangeAggregated(paramDto);
       expect(emissionsGrouped.length).toBe(5);
+    }, 1000000);
+
+    it('getCO2EmissionKgPerDateRangeAggregatedYear"', async () => {
+      const paramDto = new GetCO2EmissionAggregatedPerDateRangeDto(
+        "ecoincome", DatePeriodUnit.Year, TransportationMode.Car);
+      const emissionsGrouped = await controller.getCO2EmissionKgPerDateRangeAggregated(paramDto);
+      expect(emissionsGrouped.length).toBe(1);
     }, 1000000);
 
   });
