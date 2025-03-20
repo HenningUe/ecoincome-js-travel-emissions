@@ -66,13 +66,14 @@ describe('TravelRecordsController', () => {
         company: "newCompany2",
         travelDate: new Date("2021-11-10"),
       };
-      const result = await controller.addTravelRecordByDistance(paramDto);
-      expect(result).toBe(undefined);
-      
+      await controller.addTravelRecordByDistance(paramDto);
+      await controller.addTravelRecordByDistance(paramDto);
+      await controller.addTravelRecordByDistance(paramDto);
+
       const company = await repositoryCompanyMock.findOne({
         where: { name: "newCompany2"},
         relations: ["travelRecords"]});
-      expect(company?.travelRecords.length).toBe(1)
+      expect(company?.travelRecords.length).toBe(3)
       expect(company?.travelRecords[0].emissionCO2).toBeGreaterThan(15)
 
     }, 1000000);

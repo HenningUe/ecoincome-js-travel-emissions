@@ -49,9 +49,11 @@ export class TravelRecordsService {
   ) {
     const emissionCo2Kg = await getEmissionCO2KgPerDistanceInKm(transportationMode, distanceKm);
 
-    await this.companyRepository.manager.transaction(async manager => {
-      let companyEntity: CompanyEntity | null = await manager.findOne(CompanyEntity,
-        { where: { name: company_name } });
+    await this.companyRepository.manager.transaction(async (manager) => {
+      let companyEntity: CompanyEntity | null = await manager.findOne(
+        CompanyEntity,
+        { where: { name: company_name },
+          relations: ["travelRecords"] })
       if (!companyEntity) {
         companyEntity = this.companyRepository.create({ name: company_name });
       }
@@ -76,5 +78,4 @@ export class TravelRecordsService {
   
     });
   }
-
 }

@@ -95,7 +95,8 @@ class EmissionQueryHandler {
   ) {
     let dateBegin = !paramDto.dateBegin ? new Date("0001-01-01") : new Date(paramDto.dateBegin);
     let dateEnd = !paramDto.dateEnd ? new Date("9999-12-31") : new Date(paramDto.dateEnd);
-    const company = await  <Promise<CompanyEntity>>this.companyRepository.findOne({where: {name: paramDto.company}})
+    const company = await  <Promise<CompanyEntity>>this.companyRepository.findOne(
+      {where: {name: paramDto.company}})
     let whereCondition: any = {
       'company.id': company.id,
       travelDate: Between(dateBegin, dateEnd),

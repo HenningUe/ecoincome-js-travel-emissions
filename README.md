@@ -3,7 +3,6 @@
 [1.1. General](#General)<br>
 [1.2. Used Technologies](#UsedTechnologies)<br>
 [1.3. NestJS Basics](#NestJSBasics)<br>
-[1.2. NestJS Basics](#NestJSBasics)<br>
 <br>
 [2. Usage](#Usage)<br>
 [2.1. Usage via direct invocation of node.js](#UsageViaDirectInvocationOfNode)<br>
