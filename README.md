@@ -1,7 +1,7 @@
 # Table of Content
-[1. Introduction](#Introduction)
-[1.1. General](#General)
-[1.2. Used Technologies](#UsedTechnologies)
+[1. Introduction](#Introduction)<br>
+[1.1. General](#General)<br>
+[1.2. Used Technologies](#UsedTechnologies)<br>
 
 <a name="Introduction"></a>
 # 1. Introduction
