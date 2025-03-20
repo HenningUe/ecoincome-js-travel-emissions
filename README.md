@@ -4,15 +4,17 @@
 [1.2. Used Technologies](#UsedTechnologies)<br>
 [1.3. NestJS Basics](#NestJSBasics)<br>
 [1.2. NestJS Basics](#NestJSBasics)<br>
+<br>
 [2. Usage](#Usage)<br>
 [2.1. Usage via direct invocation of node.js](#UsageViaDirectInvocationOfNode)<br>
 [2.2. Usage via Docker](#UsageViaDocker)<br>
+<br>
 [3. More Technical Details](#MoreTechnicalDetails)<br>
 [3.1. REST API design considerations](#RESTAPIDesign)<br>
 [3.2. Database](#Database)<br>
 [3.3. API-data-validation and tranformation](#APIDataValidation)<br>
 [3.4. CI/CD workflow](#CICDWorkflow)<br>
-
+<br>
 
 <a name="Introduction"></a>
 # 1. Introduction
