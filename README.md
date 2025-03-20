@@ -1,39 +1,127 @@
-# ecoincome-js-travel-emissions
-Example implementation of a REST API interface for recording and evaluating CO2 emissions caused by (business) travels.
+# Table of Content
+[1. Introduction](#Introduction)
+[1.1. General](#General)
+[1.2. Used Technologies](#UsedTechnologies)
 
-Used technology:
-- typescript
-- nestjs
-- typeorm
+<a name="Introduction"></a>
+# 1. Introduction
+
+<a name="General"></a>
+## 1.1. General
+
+This is an example implementation of a REST API interface for recording and evaluating CO2 emissions caused by business travel.
+
+This app **serves as a demonstrator**, so many features are still missing compared to a production environment.  
+
+A live demonstration if the API is hosted are:<br>http://209.38.187.116:3000/api/docs 
+
+Beyond the pure implementation a simple CI/CD-workflow is created. For more details see section.
+
+<a name="UsedTechnologies"></a>
+## 1.2. Used Technologies
+The This app is built on the API framework **NestJS**, which, in turn, is based on **node.js**.
+
+**NestJS** was chosen for several reasons:
+- It is a mature, feature-rich framework with well-maintained documentation.
+-  **NestJS** guides you through the process of creating new projects, modules, and libraries. The basic structure - i.e., folders and files - are provided, making it much easier for colleagues to get started.
+- Extensive testing features are included out of the box. Templates for unit tests, module tests, and end-to-end tests are created right away.
+- A wide range of plug-ins are available, such as those that facilitate the inclusion of OpenAPI documentation.
+- Built-in ORM tooling.
+- Strong community support.  
+
+Other technologies/tools used:
+- typescript (node.js programming language)
+- typeorm (integrated in NestJs)
 - postgres
+- docker
+- github
+- github-actions
 - github-codespace
- 
-The example is executable in the codespace of this repo.
 
-How to use?
-- ask someone to provide you with a properly configured .env-file
-- navigate to folder `/workspaces/ecoincome-js-travel-emissions/travel-emission-api`
-- start db-server by calling `npm run start:dev:db`
+## 1.3. Basics about NestJS
+
+- In general, check out [NestJS documentation](https://docs.nestjs.com/) to gain a better insight.
+-  **NestJS** provides a clean structure for "where to put what":
+    - URI endpoints are defined in files ending with `.controller.ts`.
+    - Business logic is placed in files ending with `.service.ts`.
+- tests are placed in files ending with `.spec.ts`, and end-to-end tests are in files ending with `.e2e-spec.ts`.
+- Code packages to be shared among different services, or code that needs to be separated from services to provide a cleaner abstraction level (which, in turn, facilitates testing), are placed under the "libs" folder.
+- Note: The best practice in **NestJS** is to use the provided set of commands to create new services, controllers, etc.
+-  **NestJS** provides a set of preconfigured commands. Check out the "scripts" section of `package.json`. Examples:
+    - To execute all tests, run `npm run test`
+    - To evaluate the test-coverage run `npm run test:cov`
+-  **NestJS** includes TypeORM as the ORM tool. TypeORM handles creating and updating database schemas. It offers a convenient way to interact with relational databases using an OOP-style approach, as well as direct SQL queries when needed.
+
+# 2. Usage
+There are to ways, how the App can be executed.
+- directly, via calling **node.js**
+- inside a docker container
+
+## 2.1. Usage via direct invocation of **node.js**
+
+How to use the App locally (playground):
+- ensure that **node.js** is installed locally
+- clone the repository locally
+- navigate to folder `/ecoincome-js-travel-emissions/travel-emission-api`
+- execute `npm install`
+- Retrieve your google-maps-api-key, see https://developers.google.com/maps/third-party-platforms/wordpress/generate-api-key<br>
+
+**Note:** The API-key is not essential. Only the function addTravelRecordByOriginAndDestination won't be usable.
+
+- create a ".env" file with these variables:
+	> `GOOGLE_MAPS_API_KEY=<your google maps api key, if you have one>`
+	> `POSTGRES_HOST=127.0.0.1`
+	> `POSTGRES_PORT=5432`
+	> `POSTGRES_USER=postgres`
+	> `POSTGRES_PASSWORD=mysecretpassword`
+	> `POSTGRES_DATABASE=emissions_db`
+	> `PORT=3000`
+	> `MODE=DEV`
+	> `RUN_MIGRATIONS=true`
+- start local postgres-server by calling `npm run start:dev:db`
 - start nestjs-app by calling `npm run start`
-- The server runs locally on port 3000. Requests can be sent via a corresponding client (e.g. browser).
-- Once server is running, read and try API-docs on "http://<address>/api"
+- Note: The rest-API uses port 3000. Requests can be sent via a corresponding client (e.g. browser).
+- localhost URI for OpenAPI (swagger) docs is: https://127.0.0.1:3000/api/docs
+
+## 2.2. Usage via Docker
+The app can be easily started by spinning up the Docker containers:
+- ensure that Docker is installed locally
+- navigate to folder `/ecoincome-js-travel-emissions/travel-emission-api/scripts`
+- execute script `start-all.sh`
+  
+
+# 3. More Technical Details
+
+# 3.1. REST API design considerations
+
+- REST API design patterns are applied, as described in this guide https://duttavishek.medium.com/ultimate-guide-to-rest-api-design-best-practices-and-patterns-3414933302f4
+- Since this API primarily focuses on CO2 emissions while remaining open for extensions, the first and only level of the URI is named "emissions". This results in the following address: `"\<address\>/api/v1/emissions/.."`.
+- The same approach is applied to the next URI level. Currently, emissions tracking is limited to emissions caused by travel: `"\<address\>/api/v1/emissions/travel-records/.."`
+ Accordingly, adding records and retrieving emissions is done as follows:
+    - Adding travel records: Use the POST method on  `"\<address\>/api/v1/emissions/travel-records"`
+    - Retrieving CO2 emissions: Use the GET method on `"\<address\>/api/v1/emissions"`
+- For both methods, an API Swagger documentation is provided. This documentation contains all the necessary details for properly using the methods.
 
 
-REST API considerations
-- REST-API design patterns applied, e.g. described in https://duttavishek.medium.com/ultimate-guide-to-rest-api-design-best-practices-and-patterns-3414933302f4
-- As this API shall focus be focused on CO2-emissions in the first place and be open for extensions at the same time the first and only level of the URI is called "emissions", thus the resulting address is "<address>/api/v1/emissions/.."
-- Same idea for the next URI level. Emissions tracking is currently limited to emissions caused by travels. "<address>/api/v1/emissions/travel-records/.." 
-- Accordingly adding records and retrieving emissions is done by:
-    - travel-records are added by applying the POST-method to "<address>/api/v1/emissions/travel-records"
-    - CO2-emissions are retrieved by applying the GET-method to "<address>/api/v1/emissions"
-    - For both methods an API-swagger documentation is provided. This documentation provides you with all detailed needed to properly apply the methods
+# 3.2. Database
 
-Functions implemented:
-- `getCO2EmissionKgTotalPerPerson`
-Calculates CO2 emissions for trips from the starting point to the destination. The distance is determined automatically. Depending on the method of transportation, different CO2/km emissions are assumed
+The database currently supported is postgres.
+The used database scheme is simple. Two tables are used: one for created companies and another for created travel-records. One company is related to many travel-records.
 
-- `addTravelRecord`
-Add travel record. An entry includes company name, starting point, destination, means of transportation and travel date
+# 3.3. API-data-validation and tranformation
 
-- `getCO2EmissionKgPerDateRange`
-Calculates CO2 emissions for trips from the origin to the destination for a given date range, company and transportation mode. The distance is determined automatically. Depending on the means of transportation, different CO2/km emissions are assumed.
+**NestJS** encourages the usage of DTO (data transfer objects) for API-parameters.
+
+Benfits of using DTOs:
+- validation of input/output data (e.g., using class-validator in NestJS)
+- automatic transformation of input/output data
+- testing becomes cleaner and easier to maintain. Mock data can be easily created
+
+
+# 3.4. CI/CD workflow
+
+A simple CI/CD workflow has been created with Github-actions.
+
+The currently implemented workflow is triggered upon the creation of a new release tag (like v1.x.x). The workflow starts with the execution of the whole test-suite. After successful completion of all tests a docker container is created and pushed to docker-hub registry (see https://hub.docker.com/repository/docker/guonga/ecoincome-travel-emission-api/general).
+
+On the server-side watchtower constantly monitors the docker-hub-registry and pulls and deploys the latest docker file, if there is any new.
