@@ -41,7 +41,7 @@ export class TravelRecordsController {
       await this.travelRecordsService.addTravelRecordByDistance(paramDto);
     }
   
-    @Get('by-origin-and-destination-as-get')
+    @Get('debug-by-origin-and-destination-as-get')
     @ApiOperation({
       summary: `For debug only: Facilitates adding travel records via OpenAPI generated 
       Web-interface. For additional information. See API-description "by-origin-and-destination"` })  
@@ -55,7 +55,7 @@ export class TravelRecordsController {
       await this.travelRecordsService.addTravelRecordByOriginAndDst(paramDto);
     }
   
-    @Post('by-distance-as-get')
+    @Post('debug-by-distance-as-get')
     @ApiOperation({
       summary: `For debug only: Facilitates adding travel records via OpenAPI generated 
       Web-interface. For additional information. See API-description "by-origin-and-destination"` })
@@ -67,6 +67,16 @@ export class TravelRecordsController {
     ) {
       console.log("paramDto: ", paramDto);
       await this.travelRecordsService.addTravelRecordByDistance(paramDto);
+    }
+  
+    @Get('debug-get-company-names')
+    @ApiOperation({
+      summary: `For debug only: Returns all company names` })
+      @ApiOkResponse({
+        description: 'successfully retrieved company names', 
+      })
+    async GetCompanyNames(): Promise<string[]> {
+      return await this.travelRecordsService.getCompanyNames();
     }
 
 }

@@ -38,6 +38,11 @@ export class TravelRecordsService {
       paramDto.company, paramDto.transportationMode,
       paramDto.travelDate, paramDto.distance);
   }
+
+  async getCompanyNames() {
+    const companies = await this.companyRepository.find();
+    return companies.map((company) => company.name);
+  }
   
   private async addTravelRecord(
     company_name: string,

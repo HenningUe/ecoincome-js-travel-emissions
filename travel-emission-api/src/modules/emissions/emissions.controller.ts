@@ -1,6 +1,6 @@
 
 import { Controller, Get, Query, ValidationPipe } from '@nestjs/common';
-import {  ApiNotFoundResponse, ApiOperation, ApiTags, ApiOkResponse, ApiNoContentResponse } from '@nestjs/swagger';
+import {  ApiNotFoundResponse, ApiOperation, ApiTags, ApiOkResponse, ApiNoContentResponse, getSchemaPath } from '@nestjs/swagger';
 import { EmissionsService } from './emissions.service';
 import { GetCO2EmissionAggregatedPerDateRangeDto, GetEmissionCO2PerDateRangeAggregatedResponseDto,
     GetEmissionCO2PerDateRangeDto, GetCO2EmissionSinglePersonDto,
@@ -62,7 +62,10 @@ export class EmissionsController {
         is the first for respective month.` })
     @ApiOkResponse({
         description: 'CO2 emission in kg per person grouped by datePeriodUnit', 
-        schema: { type: 'GetCO2EmissionAggregatedPerDateRangeResponseDto[]',}
+        schema: {
+            type: 'array',
+            items: { $ref: getSchemaPath(GetCO2EmissionAggregatedPerDateRangeDto) },
+          },
     })
     @ApiNotFoundResponse({
         description: 'NotFoundException. Company not found',

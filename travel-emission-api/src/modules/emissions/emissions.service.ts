@@ -1,5 +1,5 @@
 import { format, startOfWeek} from "date-fns";
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Between, Repository } from 'typeorm';
 
@@ -50,12 +50,12 @@ export class EmissionsService {
       { where: { name: c_name } });
     if (!company) {
       const msg: string = (`The company '${paramDto.company}' does not exist` )
-      throw new HttpException(msg, HttpStatus.NOT_FOUND);
+      throw new NotFoundException(msg);
     }
     let helper = new EmissionQueryHandler(this.companyRepository, this.travelRecordRepository);
     const emissionsGrouped = (
       await helper.getEmissionCO2InKgPerDateRangeAggregated(paramDto, datePeriodUnit))    
-    if (!emissionsGrouped.length) {
+    if (emissionsGrouped.length == 0) {
       const paramStr = JSON.stringify(paramDto);
       const msg: string = (
         `For given parameters no emission records found. 
