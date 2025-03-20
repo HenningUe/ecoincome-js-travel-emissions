@@ -42,25 +42,35 @@ describe('TravelRecordsController', () => {
 
   describe('travel-emission', () => {
     it('addTravelRecordByOriginAndDest"', async () => {
-      const paramDto: AddTravelRecordByOriginAndDestDto = {
+      let paramDto: AddTravelRecordByOriginAndDestDto 
+      paramDto = {
         origin: "munich",
         destination: "berlin",
         transportationMode: TransportationMode.Car,
         company: "newCompany",
         travelDate: new Date("2021-11-10"),
       };
-      const result = await controller.addTravelRecordByOriginAndDest(paramDto);
-      expect(result).toBe(undefined);
+      await controller.addTravelRecordByOriginAndDest(paramDto);
+      await controller.addTravelRecordByOriginAndDest(paramDto);
+      paramDto = {
+        origin: "munich",
+        destination: "berlin",
+        transportationMode: TransportationMode.PublicTransit,
+        company: "newCompany3",
+        travelDate: new Date("2022-11-10"),
+      };
+      await controller.addTravelRecordByOriginAndDest(paramDto);
       
       const company = await repositoryCompanyMock.findOne({
         where: { name: "newCompany"},
         relations: ["travelRecords"]});
-      expect(company?.travelRecords.length).toBe(1)
+      expect(company?.travelRecords.length).toBe(2)
 
     }, 1000000);
 
     it('addTravelRecordByDistance"', async () => {
-      const paramDto: AddTravelRecordByDistanceDto = {
+      let paramDto: AddTravelRecordByDistanceDto
+      paramDto = {
         distance: 300,
         transportationMode: TransportationMode.PublicTransit,
         company: "newCompany2",
@@ -69,6 +79,12 @@ describe('TravelRecordsController', () => {
       await controller.addTravelRecordByDistance(paramDto);
       await controller.addTravelRecordByDistance(paramDto);
       await controller.addTravelRecordByDistance(paramDto);
+      paramDto = {
+        distance: 200,
+        transportationMode: TransportationMode.PublicTransit,
+        company: "newCompany3",
+        travelDate: new Date("2023-11-10"),
+      };
 
       const company = await repositoryCompanyMock.findOne({
         where: { name: "newCompany2"},

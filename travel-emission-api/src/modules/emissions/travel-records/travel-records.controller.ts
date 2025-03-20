@@ -55,7 +55,7 @@ export class TravelRecordsController {
       await this.travelRecordsService.addTravelRecordByOriginAndDst(paramDto);
     }
   
-    @Post('debug-by-distance-as-get')
+    @Get('debug-by-distance-as-get')
     @ApiOperation({
       summary: `For debug only: Facilitates adding travel records via OpenAPI generated 
       Web-interface. For additional information. See API-description "by-origin-and-destination"` })
