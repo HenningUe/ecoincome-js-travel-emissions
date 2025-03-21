@@ -23,6 +23,11 @@ jobs:
         env: # as  environment variable
           GOOGLE_MAPS_API_KEY: ${{ secrets.GOOGLE_MAPS_API_KEY }}
         run: npm run test
+      - name: Run tests e2e
+        working-directory: ./travel-emission-api
+        env: # as  environment variable
+          GOOGLE_MAPS_API_KEY: ${{ secrets.GOOGLE_MAPS_API_KEY }}
+        run: npm run test:e2e
 
   dockerize:
     needs: test

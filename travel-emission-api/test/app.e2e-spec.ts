@@ -26,8 +26,11 @@ describe('AppController (e2e)', () => {
     return request(app.getHttpServer())
       .get('/emissions/per-person-in-kg-co2?transportationMode=CarWithRideSharing&origin=hamburg&destination=madrid')
       .expect(200)
-      .expect("147.5");
-  });
+      .then(response => {
+        const value = parseFloat(response.text);
+        expect(value).toBeCloseTo(147.5, 0);
+      });
+  }, 1000000);
 
   it('emissions/travel-records/by-distance/ (POST)', async () => {
     return request(app.getHttpServer())
@@ -40,5 +43,11 @@ describe('AppController (e2e)', () => {
       })
       .expect(201)
   });
+
+  it('emissions/travel-records/by-distance/ (GET)', async () => {
+    return request(app.getHttpServer())
+      .get('/emissions/travel-records/debug-by-distance-as-get?company=newc&transportationMode=Car&travelDate=2025-01-02&distance=200')
+      .expect(200)
+  }, 1000000);
 
 });

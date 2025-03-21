@@ -218,6 +218,7 @@ export class AddTravelRecordByDistanceDto extends AddTravelRecordDtoBase{
   @ApiProperty({
     description: 'The distance of the trip',
   })
+  @Type(() => Number)
   @IsNumber()
   distance: number;
   

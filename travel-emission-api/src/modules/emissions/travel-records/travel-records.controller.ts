@@ -43,7 +43,7 @@ export class TravelRecordsController {
   
     @Get('debug-by-origin-and-destination-as-get')
     @ApiOperation({
-      summary: `For debug only: Facilitates adding travel records via OpenAPI generated 
+      summary: `For debugging only! Facilitates adding travel records via OpenAPI generated 
       Web-interface. For additional information. See API-description "by-origin-and-destination"` })  
     @ApiOkResponse({
       description: 'Travel record added successfully', 
@@ -57,7 +57,7 @@ export class TravelRecordsController {
   
     @Get('debug-by-distance-as-get')
     @ApiOperation({
-      summary: `For debug only: Facilitates adding travel records via OpenAPI generated 
+      summary: `For debugging only! Facilitates adding travel records via OpenAPI generated 
       Web-interface. For additional information. See API-description "by-origin-and-destination"` })
     @ApiOkResponse({
       description: 'Travel record added successfully', 
@@ -71,7 +71,7 @@ export class TravelRecordsController {
   
     @Get('debug-get-company-names')
     @ApiOperation({
-      summary: `For debug only: Returns all company names` })
+      summary: `For debugging only! Returns all company names` })
     @ApiOkResponse({
       description: 'successfully retrieved company names', 
     })

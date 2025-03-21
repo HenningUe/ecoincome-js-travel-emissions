@@ -62,10 +62,8 @@ export class EmissionsController {
         is the first for respective month.` })
     @ApiOkResponse({
         description: 'CO2 emission in kg per person grouped by datePeriodUnit', 
-        schema: {
-            type: 'array',
-            items: { $ref: getSchemaPath(GetCO2EmissionAggregatedPerDateRangeDto) },
-          },
+        type: GetCO2EmissionAggregatedPerDateRangeDto,
+        isArray: true,
     })
     @ApiNotFoundResponse({
         description: 'NotFoundException. Company not found',
