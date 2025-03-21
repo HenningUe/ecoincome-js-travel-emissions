@@ -27,7 +27,17 @@ jobs:
         working-directory: ./travel-emission-api
         env: # as  environment variable
           GOOGLE_MAPS_API_KEY: ${{ secrets.GOOGLE_MAPS_API_KEY }}
-        run: npm run test:e2e
+          POSTGRES_HOST: 127.0.0.1
+          POSTGRES_PORT: 5432
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: mysecretpassword
+          POSTGRES_DATABASE: emissions_db
+          PORT: 3000
+          MODE: DEV
+          RUN_MIGRATIONS: true
+        run: |
+          npm run start:dev:db
+          npm run test:e2e
 
   dockerize:
     needs: test
