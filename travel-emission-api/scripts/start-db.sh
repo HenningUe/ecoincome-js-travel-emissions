@@ -5,9 +5,11 @@ PARENT_DIR="$(dirname "$(realpath "$0")")"
 cd "$PARENT_DIR"
 
 # loads environment variables ('-a' > mark as exportable)
-set -a            
-source ../.env
-set +a
+if [ -f ../.env ]; then
+  set -a            
+  source ../.env
+  set +a
+fi
 
 SERVER="emissions_database_server";
 PW="$POSTGRES_PASSWORD";
