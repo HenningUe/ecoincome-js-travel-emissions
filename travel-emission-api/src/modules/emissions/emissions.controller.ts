@@ -37,7 +37,7 @@ export class EmissionsController {
         description: 'CO2 emission in kg per person', 
         schema: { type: 'number',}
     })
-    @ApiNotFoundResponse({
+    @ApiNoContentResponse({
         description: 'NotFoundException. Company not found',
     })
     @ApiNoContentResponse({
@@ -65,7 +65,7 @@ export class EmissionsController {
         type: GetCO2EmissionAggregatedPerDateRangeDto,
         isArray: true,
     })
-    @ApiNotFoundResponse({
+    @ApiNoContentResponse({
         description: 'NotFoundException. Company not found',
     })
     @ApiNoContentResponse({

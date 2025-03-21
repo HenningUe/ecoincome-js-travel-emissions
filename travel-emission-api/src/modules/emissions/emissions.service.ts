@@ -50,7 +50,7 @@ export class EmissionsService {
       { where: { name: c_name } });
     if (!company) {
       const msg: string = (`The company '${paramDto.company}' does not exist` )
-      throw new NotFoundException(msg);
+      throw new HttpException(msg, HttpStatus.NO_CONTENT);
     }
     let helper = new EmissionQueryHandler(this.companyRepository, this.travelRecordRepository);
     const emissionsGrouped = (
