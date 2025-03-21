@@ -101,6 +101,7 @@ describe('EmissionsController', () => {
     it('getCO2EmissionKgPerDateRangeAggregatedMonthSetCount"', async () => {
       const paramDto = new GetCO2EmissionAggregatedPerDateRangeDto(
         "ecoincome", DatePeriodUnit.Month, TransportationMode.Car);
+      await new Promise(r => setTimeout(r, 100));
       const emissionsGrouped = await controller.getCO2EmissionKgPerDateRangeAggregated(paramDto);
       expect(emissionsGrouped.length).toBe(5);
     }, 1000000);
@@ -108,6 +109,7 @@ describe('EmissionsController', () => {
     it('getCO2EmissionKgPerDateRangeAggregatedYear"', async () => {
       const paramDto = new GetCO2EmissionAggregatedPerDateRangeDto(
         "ecoincome", DatePeriodUnit.Year, TransportationMode.Car);
+      await new Promise(r => setTimeout(r, 100));
       const emissionsGrouped = await controller.getCO2EmissionKgPerDateRangeAggregated(paramDto);
       expect(emissionsGrouped.length).toBe(1);
     }, 1000000);
