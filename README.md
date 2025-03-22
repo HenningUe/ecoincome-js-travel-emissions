@@ -29,6 +29,8 @@ A live demonstration if the API is hosted are:<br>http://209.38.187.116:3000/api
 
 Beyond the pure implementation a simple CI/CD-workflow is created. For more details see section.
 
+The main entry point of this App is "./travel-emission-api/src/main.ts".
+
 <a name="UsedTechnologies"></a>
 ## 1.2. Used Technologies
 The This app is built on the API framework **NestJS**, which, in turn, is based on **node.js**.
