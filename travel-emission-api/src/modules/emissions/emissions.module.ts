@@ -17,4 +17,9 @@ import { TravelRecordsModule } from './travel-records/travel-records.module';
   providers: [EmissionsService],
   controllers: [EmissionsController],
 })
-export class EmissionsModule {}
+export class EmissionsModule {
+  /**
+   * As for NestJs in general, the module container for all emissions-related services, controllers and resources.
+   * Related dependencies are defined here and injected accordingly by the framework.
+   */
+}

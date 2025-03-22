@@ -3,6 +3,10 @@ import { DataSource } from 'typeorm';
 import { DataSourceOptions } from 'typeorm';
 
 
+/**
+ * Datebase configuration class respresenting the SqlLite-Memory-Database.
+ * This is used for testing purposes only.
+ */
 export class DatabaseCfg {
 
   public isProduction(): boolean {

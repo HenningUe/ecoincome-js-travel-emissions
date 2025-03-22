@@ -12,6 +12,14 @@ import { CompanyEntity, TravelRecordEntity } from '../../../database/entities/tr
 
 @Injectable()
 export class TravelRecordsService {
+  /**
+   * Business logic for handling of travel records.
+   * Methods inside this class are called by the TravelRecordsController.
+   * Business logic in this class basically consists of adding travel records to the database.
+   * 
+   * @param companyRepository - Database-repository for the CompanyEntity
+   * @param travelRecordRepository  - Database-repository for the TravelRecordEntity
+   */
 
   constructor(
     @InjectRepository(CompanyEntity)

@@ -3,8 +3,10 @@ import { DataSource } from 'typeorm';
 
 require('dotenv').config();
 
+/**
+ * Datebase configuration class respresenting the Postgres-Database.
+ */
 class DatabaseCfg {
-
   constructor(private env: { [k: string]: string | undefined }) { }
 
   private getValue(key: string, throwOnMissing = true): string {

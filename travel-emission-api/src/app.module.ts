@@ -14,5 +14,10 @@ import { EmissionsModule } from './modules/emissions/emissions.module';
   providers: [AppService],
 })
 export class AppModule {
-  constructor(private dataSource: DataSource) {}
+  /**
+   * As for NestJs in general, the module container for all emissions-related services, controllers and resources.
+   * Related dependencies are defined here and injected accordingly by the framework.
+   */
+  constructor(private dataSource: DataSource) {    
+  }
 }

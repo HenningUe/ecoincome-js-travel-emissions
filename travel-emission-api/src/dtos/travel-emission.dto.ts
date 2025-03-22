@@ -1,4 +1,9 @@
 
+/**
+ * Modules hosts the DTOs (Data Transfer Objects) used by the TravelRecordsService and EmissionsService.
+ * DTOs are used to define the structure of the data that is passed between the client and the server.
+ * They are used to validate the data and to serialize it.
+ */
 
 import { IsEnum, IsString, IsDate, IsOptional, IsNumber } from 'class-validator';
 import { TransportationMode, TransportationModeUtils } from '@app/travel-emission-calc';
@@ -9,6 +14,10 @@ export { TransportationMode };
 
 
 export class GetCO2EmissionSinglePersonDto {
+    /**
+    * DTO for the query parameters of the getCO2EmissionKgTotalPerPerson method.
+    * See parameter description to get an idea of the data needed for the query.
+    */
     @ApiProperty({
       enum: TransportationMode,
       description: 'Used transportation mode',
@@ -42,6 +51,11 @@ export class GetCO2EmissionSinglePersonDto {
 
   
 export class GetEmissionCO2PerDateRangeDto {
+  /**
+   * Base-class DTO for the query parameters of the getEmissionCO2KgPerDateRange(...)-methods
+   * See child-classes for additional parameters.
+   * See parameter description to get an idea of the data needed for the query.
+   */
   @ApiProperty({
     description: 'Company name',
   })
@@ -93,6 +107,9 @@ export class GetEmissionCO2PerDateRangeDto {
 
 
 export enum DatePeriodUnit {
+  /**
+   * Enum for the time intervals in which the time related data is to be aggregated (grouped).
+   */
   Week = 'Week',
   Month = 'Month',
   Year = 'Year',
@@ -100,6 +117,10 @@ export enum DatePeriodUnit {
 
 
 export class GetCO2EmissionAggregatedPerDateRangeDto extends GetEmissionCO2PerDateRangeDto{
+  /**
+   * DTO for the query parameters of the getEmissionCO2InKgPerDateRange method.
+   * See parameter description to get an idea of the data needed for the query.
+   */
   @ApiProperty({
     enum: DatePeriodUnit,
     required: true,
@@ -124,6 +145,10 @@ export class GetCO2EmissionAggregatedPerDateRangeDto extends GetEmissionCO2PerDa
 
 
 export class GetEmissionCO2PerDateRangeAggregatedResponseDto {
+  /**
+   * DTO for the response of the getEmissionCO2InKgAggregatedPerDateRange method.
+   * See parameter description to get an idea of the data returned by the query.
+   */
 
   @ApiProperty({
     type: Date,
@@ -150,6 +175,11 @@ export class GetEmissionCO2PerDateRangeAggregatedResponseDto {
 
 
 class AddTravelRecordDtoBase {
+  /**
+   * Base-class DTO for the PUT parameters of the addTravelRecordBy(...)-methods
+   * See child-classes for additional parameters.
+   * See parameter description to get an idea of the data needed for the query.
+   */
 
   @ApiProperty({
     description: 'Company name',
@@ -186,6 +216,10 @@ class AddTravelRecordDtoBase {
 
   
 export class AddTravelRecordByOriginAndDestDto extends AddTravelRecordDtoBase{
+  /**
+   * DTO for the PUT-parameters of the addTravelRecordByOriginAndDest method.
+   * See parameter description to get an idea of the data needed for the query.
+   */
   
   @ApiProperty({
     description: 'The origin of the trip',
@@ -213,6 +247,10 @@ export class AddTravelRecordByOriginAndDestDto extends AddTravelRecordDtoBase{
 }
 
   
+/**
+ * DTO for the PUT-parameters of the addTravelRecordByDistance method.
+ * See parameter description to get an idea of the data needed for the query.
+ */
 export class AddTravelRecordByDistanceDto extends AddTravelRecordDtoBase{
   
   @ApiProperty({

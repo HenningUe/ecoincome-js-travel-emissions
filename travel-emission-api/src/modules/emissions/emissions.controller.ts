@@ -10,6 +10,12 @@ import { GetCO2EmissionAggregatedPerDateRangeDto, GetEmissionCO2PerDateRangeAggr
 @ApiTags('emissions')
 @Controller('emissions')
 export class EmissionsController {
+    /**
+     * Handling all emissions-related requests to the /emissions endpoint.
+     * These are any queries to retrieve comany-specific CO2 emissions.
+     * 
+     * @param emissionsService - The service hosting the business logic, i.e. mainly database queries.
+     */
 
     constructor(private readonly emissionsService: EmissionsService) {}
   

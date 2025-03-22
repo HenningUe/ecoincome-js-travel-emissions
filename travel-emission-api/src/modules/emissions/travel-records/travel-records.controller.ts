@@ -9,6 +9,12 @@ import {  ApiCreatedResponse, ApiOkResponse, ApiOperation, ApiTags } from '@nest
 @ApiTags('emissions/travel-records')
 @Controller('emissions/travel-records')
 export class TravelRecordsController {
+  /**
+   * Handling all travel-related requests, e.g. emissions due to travel, to the /emissions/travel-records endpoint.
+   * Requests are PUT methods to add new travel-records (causing CO2 emissions)
+   * 
+   * @param travelRecordsService - The service hosting the business logic, i.e. mainly database interactions.
+   */
 
   constructor(private readonly travelRecordsService: TravelRecordsService) {}
   

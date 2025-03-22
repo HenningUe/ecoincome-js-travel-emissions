@@ -5,6 +5,15 @@ import { TransportationMode, TransportationModeUtils } from './enums';
 import { DistanceGetterGoogle } from './dist-getter';
 export { TransportationMode, TransportationModeUtils } from './enums';
 
+/**
+ * Gets the distance in km between two locations. As of now, only Google Maps API is supported.
+ * Locations can be provided as valid cities, addresses or coordinates.
+ *
+ * @param transportMode - The mode of transportation.
+ * @param origin - The starting point.
+ * @param destination - The destination.
+ * @returns The distance in km.
+ */
 export async function  getDistanceKm(
     transportMode: TransportationMode | string,
     origin: string,
@@ -15,7 +24,17 @@ export async function  getDistanceKm(
     return distGetter.getDistanceAsKm(<TransportationMode>transportMode, origin, destination);
 }
 
-
+/**
+ * Gets the total CO2 emission in kg for a trip from the origin to the destination per person.
+ * The distance is determined automatically. Depending on the means of transportation,
+ * different CO2/km emissions are assumed.
+ * Locations can be provided as valid cities, addresses or coordinates.
+ *
+ * @param transportMode - The mode of transportation.
+ * @param origin - The starting point.
+ * @param destination - The destination.
+ * @returns The CO2 emission in kg per person.
+ */
 export async function getEmissionCO2KgTotalPerPerson(
     transportMode: TransportationMode | string,
     origin: string,
@@ -35,7 +54,14 @@ export async function getEmissionCO2KgTotalPerPerson(
     return returnValues;
 }
 
-
+/**
+ * Gets the CO2 emission in kg for given destination.
+ * The distance is provided directly.
+ *
+ * @param transportMode - The mode of transportation.
+ * @param distanceKm - The distance in km.
+ * @returns The CO2 emission in kg.
+ */
 export async function getEmissionCO2KgPerDistanceInKm(
     transportMode: TransportationMode | string,
     distanceKm: number,

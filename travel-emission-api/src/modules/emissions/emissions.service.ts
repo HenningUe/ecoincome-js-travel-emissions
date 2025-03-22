@@ -15,7 +15,14 @@ import {
 
 @Injectable()
 export class EmissionsService {
-
+  /**
+   * Business logic for handling of emissions.
+   * Methods inside this class are called by the EmissionsController.
+   * Business logic in this class basically consists of querying the database for emissions.
+   * 
+   * @param companyRepository - Database-repository for the CompanyEntity
+   * @param travelRecordRepository  - Database-repository for the TravelRecordEntity
+   */
   constructor(
     @InjectRepository(CompanyEntity)
     private companyRepository: Repository<CompanyEntity>,

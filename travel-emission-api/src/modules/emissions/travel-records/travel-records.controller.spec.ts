@@ -1,3 +1,8 @@
+
+/**
+ * Test suite for the TravelRecordsController.
+ */
+
 import { TestingModule, TestingModuleBuilder } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
@@ -16,7 +21,6 @@ import {
 } from '../../../dtos/travel-emission.dto';
 import { TravelRecordsController } from './travel-records.controller';
 import { TravelRecordsService} from './travel-records.service';
-
 
 describe('TravelRecordsController', () => {
   let controller: TravelRecordsController;

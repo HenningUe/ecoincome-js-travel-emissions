@@ -4,6 +4,11 @@ import { ValidationPipe, VersioningType } from '@nestjs/common';
 import { AppModule } from './app.module';
 import { NotFoundFilter } from './app.filter';
 
+
+/**
+ * The main entry point of the application (as for all Node.js applications).
+ * Relevant code is located in ./modules/..
+ */
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 

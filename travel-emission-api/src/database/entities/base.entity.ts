@@ -10,6 +10,17 @@ pg.types.setTypeParser(
 );
 
 export abstract class BaseEntity {
+    /**
+     * Abstract class for the base entity of all entities in the database.
+     * The base entity contains the common fields for all entities.
+     * 
+     * The fields are:
+     * - id: string - UUID of the entity
+     * - isActive: boolean - Flag to indicate if the entity is active
+     * - isArchived: boolean - Flag to indicate if the entity is archived
+     * - createDateTime: Date - Timestamp of the creation of the entity
+     * - lastChangedDateTime: Date - Timestamp of the last change of the entity
+     */
     @PrimaryGeneratedColumn('uuid')
     id: string;
 
