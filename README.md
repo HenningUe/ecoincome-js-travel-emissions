@@ -155,8 +155,12 @@ This could be easily exchanged by are more sofisticated logger, such as winston,
 <a name="CICDWorkflow"></a>
 # 3.5. CI/CD workflow
 
-A simple CI/CD workflow has been created with Github-actions.
+Two simple CI/CD workflows have been created with Github-actions.
 
+## Workflow for new pull-requests
+The workflow is triggered upon on new PR. The workflow executes of the whole test-suite and builds the application. Any failure prevents the PR from being merged.
+
+## Workflow for creation of new Docker-release
 The currently implemented workflow is triggered upon the creation of a new release tag (like v1.x.x). The workflow starts with the execution of the whole test-suite. After successful completion of all tests a docker container is created and pushed to docker-hub registry (see https://hub.docker.com/repository/docker/guonga/ecoincome-travel-emission-api/general).
 
 On the server-side watchtower constantly monitors the docker-hub-registry and pulls and deploys the latest docker file, if there is any new.
