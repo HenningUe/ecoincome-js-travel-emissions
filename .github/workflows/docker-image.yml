@@ -1,4 +1,4 @@
-name: Node.js test
+name: Creation of Docker Release
 
 on:
   workflow_dispatch:
