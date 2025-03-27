@@ -17,6 +17,7 @@
     "noImplicitAny": false,
     "strictBindCallApply": false,
     "noFallthroughCasesInSwitch": false,
+
     "paths": {
       "@app/enum-helper": [
         "libs/enum-helper/src"
@@ -30,6 +31,13 @@
       "@app/travel-emission-calc/*": [
         "libs/travel-emission-calc/src/*"
       ]
-    }
+    },
+
+    "inlineSources": true,
+
+    // Set `sourceRoot` to  "/" to strip the build path prefix
+    // from generated source code references.
+    // This improves issue grouping in Sentry.
+    "sourceRoot": "/"
   }
 }

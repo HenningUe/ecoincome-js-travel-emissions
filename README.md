@@ -12,7 +12,8 @@
 [3.1. REST API design considerations](#RESTAPIDesign)<br>
 [3.2. Database](#Database)<br>
 [3.3. API-data-validation and tranformation](#APIDataValidation)<br>
-[3.4. CI/CD workflow](#CICDWorkflow)<br>
+[3.4. Error Handling/ Logging](#ErrorHandling)<br>
+[3.5. CI/CD workflow](#CICDWorkflow)<br>
 <br>
 
 <a name="Introduction"></a>
@@ -48,6 +49,7 @@ Other technologies/tools used:
 - typeorm (integrated in NestJs)
 - postgres
 - docker
+- sentry
 - github
 - github-actions
 - github-codespace
@@ -81,20 +83,24 @@ How to use the App locally (playground):
 - clone the repository locally
 - navigate to folder `/ecoincome-js-travel-emissions/travel-emission-api`
 - execute `npm install`
-- Retrieve your google-maps-api-key, see https://developers.google.com/maps/third-party-platforms/wordpress/generate-api-key<br>
+- (Optional) Retrieve your google-maps-api-key, see https://developers.google.com/maps/third-party-platforms/wordpress/generate-api-key<br>
+- (Optional) Retrieve your sentry-dns. Go to https://www.sentry.io, create project and follow the instructions<br>
 
-**Note:** The API-key is not essential. Only the function addTravelRecordByOriginAndDestination won't be usable.
+**Notes:** 
+- The API-key for google-maps is not essential. Only the function addTravelRecordByOriginAndDestination won't be usable.
+- The Sentry-DNS os not essential. Only the unhandled exception tracking won't work.
 
 - create a ".env" file with these variables:
-	> `GOOGLE_MAPS_API_KEY=<your google maps api key, if you have one>`
-	> `POSTGRES_HOST=127.0.0.1`
-	> `POSTGRES_PORT=5432`
-	> `POSTGRES_USER=postgres`
-	> `POSTGRES_PASSWORD=mysecretpassword`
-	> `POSTGRES_DATABASE=emissions_db`
-	> `PORT=3000`
-	> `MODE=DEV`
-	> `RUN_MIGRATIONS=true`
+	> `GOOGLE_MAPS_API_KEY=<your google maps api key, if you have one>`<br>
+	> `SENTRY_DNS=<your sentry dns provided for your project, if you have one>`<br>
+	> `POSTGRES_HOST=127.0.0.1`<br>
+	> `POSTGRES_PORT=5432`<br>
+	> `POSTGRES_USER=postgres`<br>
+	> `POSTGRES_PASSWORD=mysecretpassword`<br>
+	> `POSTGRES_DATABASE=emissions_db`<br>
+	> `PORT=3000`<br>
+	> `MODE=DEV`<br>
+	> `RUN_MIGRATIONS=true`<br>
 - start local postgres-server by calling `npm run start:dev:db`
 - start nestjs-app by calling `npm run start`
 - Note: The rest-API uses port 3000. Requests can be sent via a corresponding client (e.g. browser).
@@ -138,9 +144,16 @@ Benfits of using DTOs:
 - automatic transformation of input/output data
 - testing becomes cleaner and easier to maintain. Mock data can be easily created
 
+<a name="ErrorHandling"></a>
+# 3.4. Error Handling/ Logging
+
+In order to be able to react to errors as quickly as possible, a global error interception mechanism has been implemented (filters in NestJs). Error information (including stack trace) is sent to Sentry. Alerts to developers can be activated they way that they receive email notifications on any error.
+
+Currently for logging the built-in NestJs logging feature is used.
+This could be easily exchanged by are more sofisticated logger, such as winston, to enable automatic rotating log files or sending logs to remote handlers.
 
 <a name="CICDWorkflow"></a>
-# 3.4. CI/CD workflow
+# 3.5. CI/CD workflow
 
 A simple CI/CD workflow has been created with Github-actions.
 

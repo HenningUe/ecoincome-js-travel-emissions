@@ -1,6 +1,6 @@
 
-import { Controller, Get, Query, ValidationPipe } from '@nestjs/common';
-import {  ApiNotFoundResponse, ApiOperation, ApiTags, ApiOkResponse, ApiNoContentResponse, getSchemaPath } from '@nestjs/swagger';
+import { Controller, Get, InternalServerErrorException, Query, ValidationPipe } from '@nestjs/common';
+import {  ApiNotFoundResponse, ApiOperation, ApiTags, ApiOkResponse, ApiNoContentResponse, ApiInternalServerErrorResponse } from '@nestjs/swagger';
 import { EmissionsService } from './emissions.service';
 import { GetCO2EmissionAggregatedPerDateRangeDto, GetEmissionCO2PerDateRangeAggregatedResponseDto,
     GetEmissionCO2PerDateRangeDto, GetCO2EmissionSinglePersonDto,
@@ -87,6 +87,17 @@ export class EmissionsController {
             await this.emissionsService.getEmissionCO2InKgAggregatedPerDateRange(
                 paramDto2, datePeriodUnit));
         return result;
+    }
+    
+    @Get('debug-error-test')
+    @ApiOperation({
+        summary: `Simple debug function. Provokes unhandled exception, which is
+        handled gracefully and reported to sentry for further analysis` })
+    @ApiInternalServerErrorResponse({
+        description: 'Internal server error'
+    })
+    async errorTest(): Promise<null> {
+        throw new InternalServerErrorException("test")
     }
 }
 
