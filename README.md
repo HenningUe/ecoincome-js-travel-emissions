@@ -118,7 +118,7 @@ The app can be easily started by spinning up the Docker containers:
 # 3. More Technical Details
 
 <a name="RESTAPIDesign"></a>
-# 3.1. REST API design considerations
+## 3.1. REST API design considerations
 
 - REST API design patterns are applied, as described in this guide https://duttavishek.medium.com/ultimate-guide-to-rest-api-design-best-practices-and-patterns-3414933302f4
 - Since this API primarily focuses on CO2 emissions while remaining open for extensions, the first and only level of the URI is named "emissions". This results in the following address: `"\<address\>/api/v1/emissions/.."`.
@@ -129,13 +129,13 @@ The app can be easily started by spinning up the Docker containers:
 - For both methods, an API Swagger documentation is provided. This documentation contains all the necessary details for properly using the methods.
 
 <a name="Database"></a>
-# 3.2. Database
+## 3.2. Database
 
 The database currently supported is postgres.
 The used database scheme is simple. Two tables are used: one for created companies and another for created travel-records. One company is related to many travel-records.
 
 <a name="APIDataValidation"></a>
-# 3.3. API-data-validation and tranformation
+## 3.3. API-data-validation and tranformation
 
 **NestJS** encourages the usage of DTO (data transfer objects) for API-parameters.
 
@@ -145,7 +145,7 @@ Benfits of using DTOs:
 - testing becomes cleaner and easier to maintain. Mock data can be easily created
 
 <a name="ErrorHandling"></a>
-# 3.4. Error Handling/ Logging
+## 3.4. Error Handling/ Logging
 
 In order to be able to react to errors as quickly as possible, a global error interception mechanism has been implemented (filters in NestJs). Error information (including stack trace) is sent to Sentry. Alerts to developers can be activated they way that they receive email notifications on any error.
 
@@ -153,14 +153,14 @@ Currently for logging the built-in NestJs logging feature is used.
 This could be easily exchanged by are more sofisticated logger, such as winston, to enable automatic rotating log files or sending logs to remote handlers.
 
 <a name="CICDWorkflow"></a>
-# 3.5. CI/CD workflow
+## 3.5. CI/CD workflow
 
 Two simple CI/CD workflows have been created with Github-actions.
 
-## Workflow for new pull-requests
+### Workflow for new pull-requests
 The workflow is triggered upon on new PR. The workflow executes of the whole test-suite and builds the application. Any failure prevents the PR from being merged.
 
-## Workflow for creation of new Docker-release
+### Workflow for creation of new Docker-release
 The currently implemented workflow is triggered upon the creation of a new release tag (like v1.x.x). The workflow starts with the execution of the whole test-suite. After successful completion of all tests a docker container is created and pushed to docker-hub registry (see https://hub.docker.com/repository/docker/guonga/ecoincome-travel-emission-api/general).
 
 On the server-side watchtower constantly monitors the docker-hub-registry and pulls and deploys the latest docker file, if there is any new.
